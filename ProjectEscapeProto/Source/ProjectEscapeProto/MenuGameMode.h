@@ -6,6 +6,7 @@
 #include "OnlineSessionSettings.h"
 #include "GameFramework/GameModeBase.h"
 #include "Interfaces/OnlineSessionDelegates.h"
+#include "Interfaces/OnlineSessionInterface.h"
 #include "MenuGameMode.generated.h"
 
 /**
@@ -30,9 +31,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu")
 	bool JoinSession(FString SessionName);
 
+	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
+
 private:
 	/**
 	 * 
 	 */
+	 TSharedPtr<FOnlineSessionSearch> SessionSearch;
 	FOnCreateSessionCompleteDelegate *CreateSessionCompleteDelegate = nullptr;
 };
