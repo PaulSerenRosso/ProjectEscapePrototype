@@ -12,6 +12,7 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 {
 	FOnlineSessionSettings* SessionSettings = new FOnlineSessionSettings();
 	SessionSettings->bIsLANMatch = bIsLAN;
+	SessionSettings->bUseLobbiesVoiceChatIfAvailable = true;
 	SessionSettings->NumPublicConnections = MaxNumPlayers;
 	SessionSettings->NumPrivateConnections = MaxNumPlayers;
 	SessionSettings->bShouldAdvertise = false;
@@ -39,10 +40,10 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 				SessionInterface->AddOnCreateSessionCompleteDelegate_Handle(*CreateSessionCompleteDelegate);
 			}
 			ULocalPlayer* const Player = GetWorld()->GetFirstLocalPlayerFromController();
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player Server: %s"), *Player->GetPreferredUniqueNetId()->ToString()));
-			UE_LOG(LogTemp, Warning, TEXT("Player Server: %s"), *Player->GetPreferredUniqueNetId()->ToString());
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player Server: %s"), *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString()));
+			UE_LOG(LogTemp, Warning, TEXT("Player Server: %s"), *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString());
 
-			return SessionInterface->CreateSession(*Player->GetPreferredUniqueNetId(), FName(*SessionName), *SessionSettings);
+			return SessionInterface->CreateSession(*Player->GetPreferredUniqueNetId().GetUniqueNetId(), FName(*SessionName), *SessionSettings);
 		}
 	}
 	return false;
@@ -66,7 +67,7 @@ bool AMenuGameMode::FindSession(bool bIsLAN)
 			FindSessionsCompleteDelegate.BindUObject(this, &AMenuGameMode::OnFindSessionComplete);
 			SessionInterface->AddOnFindSessionsCompleteDelegate_Handle(FindSessionsCompleteDelegate);
 			ULocalPlayer* const Player = GetWorld()->GetFirstLocalPlayerFromController();
-			return SessionInterface->FindSessions(*Player->GetPreferredUniqueNetId(), SessionSearch);
+			return SessionInterface->FindSessions(*Player->GetPreferredUniqueNetId().GetUniqueNetId(), SessionSearch);
 		}
 	}
 	return false;
@@ -81,9 +82,9 @@ bool AMenuGameMode::JoinSession(FString SessionName)
 		if (SessionInterface.IsValid())
 		{
 			ULocalPlayer* const Player = GetWorld()->GetFirstLocalPlayerFromController();
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player Client: %s"), *Player->GetPreferredUniqueNetId()->ToString()));
-UE_LOG(LogTemp, Warning, TEXT("Player Client: %s"), *Player->GetPreferredUniqueNetId()->ToString());
-			return SessionInterface->JoinSession(*Player->GetPreferredUniqueNetId(), FName(*SessionName), FOnlineSessionSearchResult());
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player Client: %s"), *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString()));
+UE_LOG(LogTemp, Warning, TEXT("Player Client: %s"), *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString());
+			return SessionInterface->JoinSession(*Player->GetPreferredUniqueNetId().GetUniqueNetId(), FName(*SessionName), FOnlineSessionSearchResult());
 		}
 	}
 	return false;

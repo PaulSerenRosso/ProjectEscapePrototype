@@ -9,5 +9,6 @@ RD /s /q Script
 RD /s /q .vs
 RD /s /q DerivedDataCache
 DEL *.sln
+DEL .vsconfig
 RD /s /q .idea
 Rem DEL *.bin
