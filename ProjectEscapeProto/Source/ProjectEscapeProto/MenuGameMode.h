@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "OnlineSessionSettings.h"
 #include "GameFramework/GameModeBase.h"
 #include "Interfaces/OnlineSessionDelegates.h"
 #include "MenuGameMode.generated.h"
@@ -27,7 +28,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu")
 	bool FindSession(bool bIsLAN);
 	UFUNCTION(BlueprintCallable, Category = "Menu")
-	bool JoinSession(FName SessionName);
+	bool JoinSession(FString SessionName);
+
+	void TESTJOIN(bool);
 
 private:
 	/**

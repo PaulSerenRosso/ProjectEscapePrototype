@@ -38,9 +38,11 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 				CreateSessionCompleteDelegate->BindUObject(this, &AMenuGameMode::OnCreateSessionComplete);// Clear the delegate before adding it
 				SessionInterface->AddOnCreateSessionCompleteDelegate_Handle(*CreateSessionCompleteDelegate);
 			}
-			
+			ULocalPlayer* const Player = GetWorld()->GetFirstLocalPlayerFromController();
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player Server: %s"), *Player->GetPreferredUniqueNetId()->ToString()));
+			UE_LOG(LogTemp, Warning, TEXT("Player Server: %s"), *Player->GetPreferredUniqueNetId()->ToString());
 
-			return SessionInterface->CreateSession(0, FName(*SessionName), *SessionSettings);
+			return SessionInterface->CreateSession(*Player->GetPreferredUniqueNetId(), FName(*SessionName), *SessionSettings);
 		}
 	}
 	return false;
@@ -62,22 +64,41 @@ bool AMenuGameMode::FindSession(bool bIsLAN)
 
 			FOnFindSessionsCompleteDelegate FindSessionsCompleteDelegate;
 			FindSessionsCompleteDelegate.BindUObject(this, &AMenuGameMode::OnFindSessionComplete);
-			return SessionInterface->FindSessions(0, SessionSearch);
+			SessionInterface->AddOnFindSessionsCompleteDelegate_Handle(FindSessionsCompleteDelegate);
+			ULocalPlayer* const Player = GetWorld()->GetFirstLocalPlayerFromController();
+			return SessionInterface->FindSessions(*Player->GetPreferredUniqueNetId(), SessionSearch);
 		}
 	}
 	return false;
 }
 
-bool AMenuGameMode::JoinSession(FName SessionName)
+bool AMenuGameMode::JoinSession(FString SessionName)
 {
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	if (Subsystem)
 	{
 		IOnlineSessionPtr SessionInterface = Subsystem->GetSessionInterface();
 		if (SessionInterface.IsValid())
-		{			
-			return SessionInterface->JoinSession(0, SessionName, FOnlineSessionSearchResult());
+		{
+			ULocalPlayer* const Player = GetWorld()->GetFirstLocalPlayerFromController();
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Player Client: %s"), *Player->GetPreferredUniqueNetId()->ToString()));
+UE_LOG(LogTemp, Warning, TEXT("Player Client: %s"), *Player->GetPreferredUniqueNetId()->ToString());
+			return SessionInterface->JoinSession(*Player->GetPreferredUniqueNetId(), FName(*SessionName), FOnlineSessionSearchResult());
 		}
 	}
 	return false;
+}
+
+void AMenuGameMode::TESTJOIN(bool _)
+{
+	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+	if (Subsystem)
+	{
+		IOnlineSessionPtr SessionInterface = Subsystem->GetSessionInterface();
+		if (SessionInterface.IsValid())
+		{
+			// FString SessionName = "POMME";
+			// SessionInterface->JoinSession(1, FName(*SessionName), SessionSearch->SearchResults[0]);
+		}
+	}
 }
