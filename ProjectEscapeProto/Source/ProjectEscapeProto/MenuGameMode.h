@@ -28,9 +28,6 @@ public:
 	bool FindSession(bool bIsLAN);
 	UFUNCTION(BlueprintCallable, Category = "Menu")
 	bool JoinSession(FName SessionName);
-	UFUNCTION(BlueprintCallable, Category = "Menu")
-	bool DestroySession(FName SessionName);
-
 
 private:
 	/**

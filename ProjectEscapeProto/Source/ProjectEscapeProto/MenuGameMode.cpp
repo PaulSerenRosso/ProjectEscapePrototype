@@ -10,20 +10,19 @@
 
 bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNumPlayers)
 {
-	DestroySession(FName(*SessionName));
 	FOnlineSessionSettings* SessionSettings = new FOnlineSessionSettings();
-	// SessionSettings->bIsLANMatch = bIsLAN;
+	SessionSettings->bIsLANMatch = bIsLAN;
 	SessionSettings->NumPublicConnections = MaxNumPlayers;
-	// SessionSettings->NumPrivateConnections = MaxNumPlayers;
+	SessionSettings->NumPrivateConnections = MaxNumPlayers;
 	SessionSettings->bShouldAdvertise = false;
-	// SessionSettings->bAllowJoinInProgress = true;
-	// SessionSettings->bAllowInvites = true;
+	SessionSettings->bAllowJoinInProgress = true;
+	SessionSettings->bAllowInvites = true;
 	SessionSettings->bUsesPresence = true;
-	// SessionSettings->bAllowJoinViaPresence = true;
-	// SessionSettings->bAllowJoinViaPresenceFriendsOnly = false;
-	// SessionSettings->bAntiCheatProtected = false;
-	// SessionSettings->bIsDedicated = false;
-	// SessionSettings->bUsesStats = false;
+	SessionSettings->bAllowJoinViaPresence = true;
+	SessionSettings->bAllowJoinViaPresenceFriendsOnly = false;
+	SessionSettings->bAntiCheatProtected = false;
+	SessionSettings->bIsDedicated = false;
+	SessionSettings->bUsesStats = false;
 
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	UE_LOG(LogTemp, Warning, TEXT("The name is: %s"), *Subsystem->GetSubsystemName().ToString());
@@ -80,21 +79,5 @@ bool AMenuGameMode::JoinSession(FName SessionName)
 			return SessionInterface->JoinSession(0, SessionName, FOnlineSessionSearchResult());
 		}
 	}
-	return false;
-}
-
-bool AMenuGameMode::DestroySession(FName SessionName)
-{
-	
-	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
-	if (Subsystem)
-	{
-		IOnlineSessionPtr SessionInterface = Subsystem->GetSessionInterface();
-		if (SessionInterface.IsValid())
-		{
-			return SessionInterface->DestroySession(SessionName);
-		}
-	}
-	
 	return false;
 }
