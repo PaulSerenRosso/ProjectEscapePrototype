@@ -18,7 +18,7 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 	SessionSettings->bShouldAdvertise = true;
 	SessionSettings->bAllowJoinInProgress = true;
 	SessionSettings->bAllowInvites = true;
-	SessionSettings->bUsesPresence = false;
+	SessionSettings->bUsesPresence = true;
 	SessionSettings->bAllowJoinViaPresence = true;
 	SessionSettings->bAllowJoinViaPresenceFriendsOnly = false;
 	SessionSettings->bAntiCheatProtected = false;
@@ -71,7 +71,7 @@ bool AMenuGameMode::FindSession(bool bIsLAN)
 			SessionSearch = MakeShareable(new FOnlineSessionSearch());
 			SessionSearch->bIsLanQuery = bIsLAN;
 			SessionSearch->MaxSearchResults = 100;
-			SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, false, EOnlineComparisonOp::Equals);
+			SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 
 			FOnFindSessionsCompleteDelegate FindSessionsCompleteDelegate;
 			FindSessionsCompleteDelegate.BindUObject(this, &AMenuGameMode::OnFindSessionComplete);
