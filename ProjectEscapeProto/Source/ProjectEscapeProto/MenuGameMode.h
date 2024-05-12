@@ -30,8 +30,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu")
 	bool JoinSession(FString SessionName);
 
-	void TESTJOIN(bool);
-
 private:
 	/**
 	 * 

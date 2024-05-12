@@ -15,7 +15,7 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 	SessionSettings->bUseLobbiesVoiceChatIfAvailable = true;
 	SessionSettings->NumPublicConnections = MaxNumPlayers;
 	SessionSettings->NumPrivateConnections = MaxNumPlayers;
-	SessionSettings->bShouldAdvertise = false;
+	SessionSettings->bShouldAdvertise = true;
 	SessionSettings->bAllowJoinInProgress = true;
 	SessionSettings->bAllowInvites = true;
 	SessionSettings->bUsesPresence = true;
@@ -61,7 +61,6 @@ bool AMenuGameMode::FindSession(bool bIsLAN)
 			TSharedRef<FOnlineSessionSearch> SessionSearch = MakeShared<FOnlineSessionSearch>();
 			SessionSearch->bIsLanQuery = bIsLAN;
 			SessionSearch->MaxSearchResults = 100;
-			SessionSearch->PingBucketSize = 50;
 
 			FOnFindSessionsCompleteDelegate FindSessionsCompleteDelegate;
 			FindSessionsCompleteDelegate.BindUObject(this, &AMenuGameMode::OnFindSessionComplete);
@@ -88,18 +87,4 @@ UE_LOG(LogTemp, Warning, TEXT("Player Client: %s"), *Player->GetPreferredUniqueN
 		}
 	}
 	return false;
-}
-
-void AMenuGameMode::TESTJOIN(bool _)
-{
-	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
-	if (Subsystem)
-	{
-		IOnlineSessionPtr SessionInterface = Subsystem->GetSessionInterface();
-		if (SessionInterface.IsValid())
-		{
-			// FString SessionName = "POMME";
-			// SessionInterface->JoinSession(1, FName(*SessionName), SessionSearch->SearchResults[0]);
-		}
-	}
 }
