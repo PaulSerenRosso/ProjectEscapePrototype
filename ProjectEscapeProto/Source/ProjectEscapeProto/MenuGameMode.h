@@ -21,6 +21,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Menu")
 	void OnCreateSessionComplete(FName Name, bool bArg);
 	UFUNCTION(BlueprintImplementableEvent, Category = "Menu")
+	void OnStartSessionComplete(FName Name, bool bArg);
+	UFUNCTION(BlueprintImplementableEvent, Category = "Menu")
 	void OnFindSessionComplete(bool bArg);
 
 	protected:
@@ -30,7 +32,8 @@ public:
 	bool FindSession(bool bIsLAN);
 	UFUNCTION(BlueprintCallable, Category = "Menu")
 	bool JoinSession(FString SessionName);
-
+	UFUNCTION(BlueprintCallable, Category = "Menu")
+	bool StartSession(FString SessionName,  bool bArg);
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 private:
@@ -39,4 +42,5 @@ private:
 	 */
 	 TSharedPtr<FOnlineSessionSearch> SessionSearch;
 	FOnCreateSessionCompleteDelegate *CreateSessionCompleteDelegate = nullptr;
+	FOnStartSessionCompleteDelegate *StartSessionCompleteDelegate = nullptr;
 };

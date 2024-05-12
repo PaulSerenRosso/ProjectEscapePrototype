@@ -21,6 +21,7 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 	SessionSettings->bUsesPresence = true;
 	SessionSettings->bAllowJoinViaPresence = true;
 	SessionSettings->bAllowJoinViaPresenceFriendsOnly = false;
+	SessionSettings->bUseLobbiesIfAvailable = true;
 	SessionSettings->bAntiCheatProtected = false;
 	SessionSettings->bIsDedicated = false;
 	SessionSettings->bUsesStats = false;
@@ -48,11 +49,11 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
 			                                 FString::Printf(
 				                                 TEXT("Player Server: %s"),
-				                                 *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString()));
+				                                 *Player->GetPreferredUniqueNetId()->ToString()));
 			UE_LOG(LogTemp, Warning, TEXT("Player Server: %s"),
-			       *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString());
+			       *Player->GetPreferredUniqueNetId()->ToString());
 
-			return SessionInterface->CreateSession(*Player->GetPreferredUniqueNetId().GetUniqueNetId(),
+			return SessionInterface->CreateSession(*Player->GetPreferredUniqueNetId(),
 			                                       FName(*SessionName), *SessionSettings);
 		}
 	}
@@ -69,15 +70,17 @@ bool AMenuGameMode::FindSession(bool bIsLAN)
 		if (SessionInterface.IsValid())
 		{
 			SessionSearch = MakeShareable(new FOnlineSessionSearch());
+			UE_LOG(LogTemp, Warning, TEXT("Test %d"), SessionSearch->SearchState);
 			SessionSearch->bIsLanQuery = bIsLAN;
 			SessionSearch->MaxSearchResults = 100;
+			SessionSearch->QuerySettings.Set(SEARCH_LOBBIES, true, EOnlineComparisonOp::Equals);
 			SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 
 			FOnFindSessionsCompleteDelegate FindSessionsCompleteDelegate;
 			FindSessionsCompleteDelegate.BindUObject(this, &AMenuGameMode::OnFindSessionComplete);
 			SessionInterface->AddOnFindSessionsCompleteDelegate_Handle(FindSessionsCompleteDelegate);
 			ULocalPlayer* const Player = GetWorld()->GetFirstLocalPlayerFromController();
-			return SessionInterface->FindSessions(*Player->GetPreferredUniqueNetId().GetUniqueNetId(),
+			return SessionInterface->FindSessions(*Player->GetPreferredUniqueNetId(),
 			                                      SessionSearch.ToSharedRef());
 		}
 	}
@@ -96,6 +99,8 @@ bool AMenuGameMode::JoinSession(FString SessionName)
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("No Sessions Found")));
 				UE_LOG(LogTemp, Warning, TEXT("No Sessions Found"));
+				UE_LOG(LogTemp, Warning, TEXT("No Sessions Found %d"), SessionSearch->SearchState);
+				
 				return false;
 			}
 			FOnlineSessionSearchResult SearchResult = SessionSearch->SearchResults[0];
@@ -103,18 +108,49 @@ bool AMenuGameMode::JoinSession(FString SessionName)
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
 			                                 FString::Printf(
 				                                 TEXT("Player Client: %s"),
-				                                 *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString()));
+				                                 *Player->GetPreferredUniqueNetId()->ToString()));
 			UE_LOG(LogTemp, Warning, TEXT("Player Client: %s"),
-			       *Player->GetPreferredUniqueNetId().GetUniqueNetId()->ToString());
+			       *Player->GetPreferredUniqueNetId()->ToString());
 
 
 			FOnJoinSessionCompleteDelegate OnJoinSessionCompleteDelegateHandle;
 			OnJoinSessionCompleteDelegateHandle.BindUObject(this, &AMenuGameMode::OnJoinSessionComplete);
 			SessionInterface->AddOnJoinSessionCompleteDelegate_Handle(OnJoinSessionCompleteDelegateHandle);
 			
-			return SessionInterface->JoinSession(*Player->GetPreferredUniqueNetId().GetUniqueNetId(),
+			return SessionInterface->JoinSession(*Player->GetPreferredUniqueNetId(),
 			                                     FName(*SessionName), SearchResult);
 		}
+	}
+	return false;
+}
+
+bool AMenuGameMode::StartSession(FString SessionName,  bool bArg)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnCreateSessionComplete %s"), *SessionName));
+
+	// Get the OnlineSubsystem so we can get the Session Interface
+	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+	if (OnlineSub)
+	{
+		// Get the Session Interface to call the StartSession function
+		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+
+		if (Sessions.IsValid())
+		{
+			
+			if (bArg)
+			{
+				// Set the StartSession delegate handle
+				StartSessionCompleteDelegate = new FOnStartSessionCompleteDelegate();
+				StartSessionCompleteDelegate->BindUObject(this, &AMenuGameMode::OnStartSessionComplete);
+				// Clear the delegate before adding it
+				Sessions->AddOnStartSessionCompleteDelegate_Handle(*StartSessionCompleteDelegate);
+
+				// Our StartSessionComplete delegate should get called after this
+				Sessions->StartSession(FName(*SessionName));
+			}
+		}
+		
 	}
 	return false;
 }
