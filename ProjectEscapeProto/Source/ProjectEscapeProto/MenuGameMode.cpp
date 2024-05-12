@@ -10,6 +10,7 @@
 
 bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNumPlayers)
 {
+	DestroySession(FName(*SessionName));
 	FOnlineSessionSettings* SessionSettings = new FOnlineSessionSettings();
 	// SessionSettings->bIsLANMatch = bIsLAN;
 	SessionSettings->NumPublicConnections = MaxNumPlayers;
@@ -25,6 +26,8 @@ bool AMenuGameMode::CreateSession(FString SessionName, bool bIsLAN, int32 MaxNum
 	// SessionSettings->bUsesStats = false;
 
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+	UE_LOG(LogTemp, Warning, TEXT("The name is: %s"), *Subsystem->GetSubsystemName().ToString());
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Current Online Subsystem: %s"), *Subsystem->GetSubsystemName().ToString()));
 	if (Subsystem)
 	{
 		IOnlineSessionPtr SessionInterface = Subsystem->GetSessionInterface();
@@ -82,6 +85,7 @@ bool AMenuGameMode::JoinSession(FName SessionName)
 
 bool AMenuGameMode::DestroySession(FName SessionName)
 {
+	
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	if (Subsystem)
 	{
@@ -91,5 +95,6 @@ bool AMenuGameMode::DestroySession(FName SessionName)
 			return SessionInterface->DestroySession(SessionName);
 		}
 	}
+	
 	return false;
 }
