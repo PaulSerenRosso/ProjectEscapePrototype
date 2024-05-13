@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-AdvancedSessions.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Intermediate\Build\Win64\x64\ProjectEscapeProtoEditor\Development\Engine\SharedPCH.Engine.Cpp20.h.obj"
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\x64\UnrealEditor\Development\AdvancedSessions\Module.AdvancedSessions.1.cpp.obj"
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\x64\UnrealEditor\Development\AdvancedSessions\Module.AdvancedSessions.2.cpp.obj"
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\x64\UnrealEditor\Development\AdvancedSessions\Module.AdvancedSessions.3.cpp.obj"
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\x64\UnrealEditor\Development\AdvancedSessions\Default.rc2.res"
+/OUT:"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\AdvancedSessions\AdvancedSessions\Intermediate\Build\Win64\x64\UnrealEditor\Development\AdvancedSessions\UnrealEditor-AdvancedSessions.lib"
