@@ -11,11 +11,6 @@ APlayerCharacter::APlayerCharacter()
 
 }
 
-void APlayerCharacter::ServerTravelToLobbyMap_Implementation()
-{
-	Cast<APlayerController>(GetController())->ClientTravel(TEXT("/Game/FirstPerson/Maps/FirstPersonMap"), ETravelType::TRAVEL_Absolute);
-}
-
 // Called when the game starts or when spawned
 void APlayerCharacter::BeginPlay()
 {
