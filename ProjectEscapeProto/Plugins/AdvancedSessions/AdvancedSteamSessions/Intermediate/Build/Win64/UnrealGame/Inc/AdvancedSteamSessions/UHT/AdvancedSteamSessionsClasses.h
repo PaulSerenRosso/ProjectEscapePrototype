@@ -7,8 +7,8 @@
 #pragma once
 
 
-#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/AdvancedSteamFriendsLibrary.h"
-#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/AdvancedSteamWorkshopLibrary.h"
-#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/SteamRequestGroupOfficersCallbackProxy.h"
-#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/SteamWSRequestUGCDetailsCallbackProxy.h"
+#include "D:/Unreal Projects/ProjectEscapePrototype/ProjectEscapeProto/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/AdvancedSteamFriendsLibrary.h"
+#include "D:/Unreal Projects/ProjectEscapePrototype/ProjectEscapeProto/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/AdvancedSteamWorkshopLibrary.h"
+#include "D:/Unreal Projects/ProjectEscapePrototype/ProjectEscapeProto/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/SteamRequestGroupOfficersCallbackProxy.h"
+#include "D:/Unreal Projects/ProjectEscapePrototype/ProjectEscapeProto/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/SteamWSRequestUGCDetailsCallbackProxy.h"
 
