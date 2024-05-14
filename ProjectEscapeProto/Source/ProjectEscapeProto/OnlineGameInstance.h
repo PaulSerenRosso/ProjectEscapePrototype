@@ -17,6 +17,7 @@ class PROJECTESCAPEPROTO_API UOnlineGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 	void OnFindSessionsComplete(bool bArg);
+	
 	UFUNCTION(BlueprintCallable)
 	void FindAllSessions();
 	void OnJoinSessionComplete(FName Name, EOnJoinSessionCompleteResult::Type Arg);

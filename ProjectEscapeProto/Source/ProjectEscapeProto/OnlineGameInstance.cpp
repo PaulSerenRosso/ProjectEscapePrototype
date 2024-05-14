@@ -3,6 +3,7 @@
 
 #include "OnlineGameInstance.h"
 #include "OnlineSubsystem.h"
+#include "PlayerCharacter.h"
 #include "Online/OnlineSessionNames.h"
 
 void UOnlineGameInstance::OnFindSessionsComplete(bool bArg)
@@ -69,14 +70,15 @@ void UOnlineGameInstance::OnJoinSessionComplete(FName Name, EOnJoinSessionComple
 		{
 			APlayerController* const PlayerController = GetWorld()->GetFirstPlayerController();
 
-			FString TravelURL;
-
-			if (PlayerController && Sessions->GetResolvedConnectString(Name, TravelURL))
-			{
-				TravelURL += pathToLobbyMap;
-				UE_LOG(LogTemp, Warning, TEXT("TravelURL: %s"), *TravelURL);
-				PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
-			}
+			Cast<APlayerCharacter>(PlayerController->GetPawnOrSpectator())->ServerTravelToLobbyMap();
+			// FString TravelURL;
+			//
+			// if (PlayerController && Sessions->GetResolvedConnectString(Name, TravelURL))
+			// {
+			// 	TravelURL = pathToLobbyMap;
+			// 	UE_LOG(LogTemp, Warning, TEXT("TravelURL: %s"), *TravelURL);
+			// 	PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
+			//}
 		}
 	}
 }
