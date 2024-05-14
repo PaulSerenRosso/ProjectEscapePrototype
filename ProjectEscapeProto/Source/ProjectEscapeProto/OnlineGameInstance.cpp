@@ -3,10 +3,11 @@
 
 #include "OnlineGameInstance.h"
 #include "OnlineSubsystem.h"
+#include "Online/OnlineSessionNames.h"
 
 void UOnlineGameInstance::OnFindSessionsComplete(bool bArg)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnFindSessionsComplete: %d"), bArg);
+	UE_LOG(LogTemp, Warning, TEXT("OnFindSessionsComplete: %s"), bArg ? TEXT("true") : TEXT("false"));
 	int nbLobbies = SessionSearch->SearchResults.Num();
 	UE_LOG(LogTemp, Warning, TEXT("nbLobbies: %d"), nbLobbies);
 	for (int i = 0; i < nbLobbies; i++)
@@ -37,6 +38,8 @@ void UOnlineGameInstance::FindAllSessions()
 			SessionSearch = MakeShareable(new FOnlineSessionSearch());
 			SessionSearch->bIsLanQuery = false;
 			SessionSearch->MaxSearchResults = 100;
+			SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
+			SessionSearch->QuerySettings.Set(SEARCH_LOBBIES, true, EOnlineComparisonOp::Equals);
 
 			FOnFindSessionsCompleteDelegate OnJoinSessionCompleteDelegateHandle;
 			OnJoinSessionCompleteDelegateHandle.BindUObject(this, &UOnlineGameInstance::OnFindSessionsComplete);
@@ -70,6 +73,8 @@ void UOnlineGameInstance::OnJoinSessionComplete(FName Name, EOnJoinSessionComple
 
 			if (PlayerController && Sessions->GetResolvedConnectString(Name, TravelURL))
 			{
+				UE_LOG(LogTemp, Warning, TEXT("TravelURL: %s"), *TravelURL);
+				TravelURL
 				PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
 			}
 		}
