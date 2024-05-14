@@ -14,7 +14,7 @@ class PROJECTESCAPEPROTO_API APlayerCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
-	UFUNCTION(Server, Reliable)
+	UFUNCTION(NetMulticast, Reliable)
 	void ServerTravelToLobbyMap();
 
 
