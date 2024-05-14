@@ -7,9 +7,8 @@
 #pragma once
 
 
-#include "AdvancedSteamSessions/Classes/AdvancedSteamFriendsLibrary.h"
-#include "AdvancedSteamSessions/Classes/AdvancedSteamWorkshopLibrary.h"
-#include "AdvancedSteamSessions/Classes/SteamNotificationsSubsystem.h"
-#include "AdvancedSteamSessions/Classes/SteamRequestGroupOfficersCallbackProxy.h"
-#include "AdvancedSteamSessions/Classes/SteamWSRequestUGCDetailsCallbackProxy.h"
+#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/AdvancedSteamFriendsLibrary.h"
+#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/AdvancedSteamWorkshopLibrary.h"
+#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/SteamRequestGroupOfficersCallbackProxy.h"
+#include "D:/Projet Perso/CutyKiller/GAME FOLDER/Plugins/AdvancedSessions/AdvancedSteamSessions/Source/AdvancedSteamSessions/Classes/SteamWSRequestUGCDetailsCallbackProxy.h"
 

@@ -7,12 +7,6 @@
 #include "BlueprintDataDefinitions.h"
 #include "FindSessionsCallbackProxyAdvanced.generated.h"
 
-
-FORCEINLINE bool operator==(const FBlueprintSessionResult& A, const FBlueprintSessionResult& B)
-{
-	return (A.OnlineResult.IsValid() == B.OnlineResult.IsValid() && (A.OnlineResult.GetSessionIdStr() == B.OnlineResult.GetSessionIdStr()));
-}
-
 UCLASS(MinimalAPI)
 class UFindSessionsCallbackProxyAdvanced : public UOnlineBlueprintCallProxyBase
 {
@@ -105,5 +99,5 @@ private:
 	int MinSlotsAvailable;
 
 	// The world context object in which this call is taking place
-	TWeakObjectPtr<UObject> WorldContextObject;
+	UObject* WorldContextObject;
 };

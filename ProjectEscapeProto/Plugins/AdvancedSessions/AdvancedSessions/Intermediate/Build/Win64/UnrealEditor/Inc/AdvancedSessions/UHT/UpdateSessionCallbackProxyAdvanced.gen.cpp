@@ -29,10 +29,9 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 		P_GET_UBOOL(Z_Param_bAllowJoinInProgress);
 		P_GET_UBOOL(Z_Param_bRefreshOnlineData);
 		P_GET_UBOOL(Z_Param_bIsDedicatedServer);
-		P_GET_UBOOL(Z_Param_bShouldAdvertise);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		*(UUpdateSessionCallbackProxyAdvanced**)Z_Param__Result=UUpdateSessionCallbackProxyAdvanced::UpdateSession(Z_Param_WorldContextObject,Z_Param_Out_ExtraSettings,Z_Param_PublicConnections,Z_Param_PrivateConnections,Z_Param_bUseLAN,Z_Param_bAllowInvites,Z_Param_bAllowJoinInProgress,Z_Param_bRefreshOnlineData,Z_Param_bIsDedicatedServer,Z_Param_bShouldAdvertise);
+		*(UUpdateSessionCallbackProxyAdvanced**)Z_Param__Result=UUpdateSessionCallbackProxyAdvanced::UpdateSession(Z_Param_WorldContextObject,Z_Param_Out_ExtraSettings,Z_Param_PublicConnections,Z_Param_PrivateConnections,Z_Param_bUseLAN,Z_Param_bAllowInvites,Z_Param_bAllowJoinInProgress,Z_Param_bRefreshOnlineData,Z_Param_bIsDedicatedServer);
 		P_NATIVE_END;
 	}
 	void UUpdateSessionCallbackProxyAdvanced::StaticRegisterNativesUUpdateSessionCallbackProxyAdvanced()
@@ -56,7 +55,6 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 			bool bAllowJoinInProgress;
 			bool bRefreshOnlineData;
 			bool bIsDedicatedServer;
-			bool bShouldAdvertise;
 			UUpdateSessionCallbackProxyAdvanced* ReturnValue;
 		};
 		static const UECodeGen_Private::FObjectPropertyParams NewProp_WorldContextObject;
@@ -77,8 +75,6 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 		static const UECodeGen_Private::FBoolPropertyParams NewProp_bRefreshOnlineData;
 		static void NewProp_bIsDedicatedServer_SetBit(void* Obj);
 		static const UECodeGen_Private::FBoolPropertyParams NewProp_bIsDedicatedServer;
-		static void NewProp_bShouldAdvertise_SetBit(void* Obj);
-		static const UECodeGen_Private::FBoolPropertyParams NewProp_bShouldAdvertise;
 		static const UECodeGen_Private::FObjectPropertyParams NewProp_ReturnValue;
 		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
@@ -121,11 +117,6 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 		((UpdateSessionCallbackProxyAdvanced_eventUpdateSession_Parms*)Obj)->bIsDedicatedServer = 1;
 	}
 	const UECodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bIsDedicatedServer = { "bIsDedicatedServer", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(UpdateSessionCallbackProxyAdvanced_eventUpdateSession_Parms), &Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bIsDedicatedServer_SetBit, METADATA_PARAMS(0, nullptr) };
-	void Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bShouldAdvertise_SetBit(void* Obj)
-	{
-		((UpdateSessionCallbackProxyAdvanced_eventUpdateSession_Parms*)Obj)->bShouldAdvertise = 1;
-	}
-	const UECodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bShouldAdvertise = { "bShouldAdvertise", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(UpdateSessionCallbackProxyAdvanced_eventUpdateSession_Parms), &Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bShouldAdvertise_SetBit, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UpdateSessionCallbackProxyAdvanced_eventUpdateSession_Parms, ReturnValue), Z_Construct_UClass_UUpdateSessionCallbackProxyAdvanced_NoRegister, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::PropPointers[] = {
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_WorldContextObject,
@@ -138,7 +129,6 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bAllowJoinInProgress,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bRefreshOnlineData,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bIsDedicatedServer,
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_bShouldAdvertise,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession_Statics::NewProp_ReturnValue,
 	};
 #if WITH_METADATA
@@ -153,7 +143,6 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 		{ "CPP_Default_bAllowJoinInProgress", "false" },
 		{ "CPP_Default_bIsDedicatedServer", "false" },
 		{ "CPP_Default_bRefreshOnlineData", "true" },
-		{ "CPP_Default_bShouldAdvertise", "true" },
 		{ "CPP_Default_bUseLAN", "false" },
 		{ "CPP_Default_PrivateConnections", "0" },
 		{ "CPP_Default_PublicConnections", "100" },
@@ -206,7 +195,7 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 	};
 	static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UUpdateSessionCallbackProxyAdvanced_Statics::DependentSingletons) < 16);
 	const FClassFunctionLinkInfo Z_Construct_UClass_UUpdateSessionCallbackProxyAdvanced_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession, "UpdateSession" }, // 2804584002
+		{ &Z_Construct_UFunction_UUpdateSessionCallbackProxyAdvanced_UpdateSession, "UpdateSession" }, // 1935523380
 	};
 	static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UUpdateSessionCallbackProxyAdvanced_Statics::FuncInfo) < 2048);
 #if WITH_METADATA
@@ -276,15 +265,15 @@ void EmptyLinkFunctionForGeneratedCodeUpdateSessionCallbackProxyAdvanced() {}
 	}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UUpdateSessionCallbackProxyAdvanced);
 	UUpdateSessionCallbackProxyAdvanced::~UUpdateSessionCallbackProxyAdvanced() {}
-	struct Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics
+	struct Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UUpdateSessionCallbackProxyAdvanced, UUpdateSessionCallbackProxyAdvanced::StaticClass, TEXT("UUpdateSessionCallbackProxyAdvanced"), &Z_Registration_Info_UClass_UUpdateSessionCallbackProxyAdvanced, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UUpdateSessionCallbackProxyAdvanced), 3793603459U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_UUpdateSessionCallbackProxyAdvanced, UUpdateSessionCallbackProxyAdvanced::StaticClass, TEXT("UUpdateSessionCallbackProxyAdvanced"), &Z_Registration_Info_UClass_UUpdateSessionCallbackProxyAdvanced, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UUpdateSessionCallbackProxyAdvanced), 4093189939U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_1017509023(TEXT("/Script/AdvancedSessions"),
-		Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_2542055836(TEXT("/Script/AdvancedSessions"),
+		Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_UpdateSessionCallbackProxyAdvanced_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

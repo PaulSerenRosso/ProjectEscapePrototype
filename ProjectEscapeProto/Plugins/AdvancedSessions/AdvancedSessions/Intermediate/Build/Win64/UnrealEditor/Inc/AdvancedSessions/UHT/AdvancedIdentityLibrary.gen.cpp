@@ -16,7 +16,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	ADVANCEDSESSIONS_API UEnum* Z_Construct_UEnum_AdvancedSessions_EBPLoginStatus();
 	ADVANCEDSESSIONS_API UScriptStruct* Z_Construct_UScriptStruct_FBPUniqueNetId();
 	ADVANCEDSESSIONS_API UScriptStruct* Z_Construct_UScriptStruct_FBPUserOnlineAccount();
-	COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_APlayerController_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UBlueprintFunctionLibrary();
 	UPackage* Z_Construct_UPackage__Script_AdvancedSessions();
@@ -92,55 +91,50 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	}
 	DEFINE_FUNCTION(UAdvancedIdentityLibrary::execGetAllUserAccounts)
 	{
-		P_GET_OBJECT(UObject,Z_Param_WorldContextObject);
 		P_GET_TARRAY_REF(FBPUserOnlineAccount,Z_Param_Out_AccountInfos);
 		P_GET_ENUM_REF(EBlueprintResultSwitch,Z_Param_Out_Result);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		UAdvancedIdentityLibrary::GetAllUserAccounts(Z_Param_WorldContextObject,Z_Param_Out_AccountInfos,(EBlueprintResultSwitch&)(Z_Param_Out_Result));
+		UAdvancedIdentityLibrary::GetAllUserAccounts(Z_Param_Out_AccountInfos,(EBlueprintResultSwitch&)(Z_Param_Out_Result));
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(UAdvancedIdentityLibrary::execGetUserAccount)
 	{
-		P_GET_OBJECT(UObject,Z_Param_WorldContextObject);
 		P_GET_STRUCT_REF(FBPUniqueNetId,Z_Param_Out_UniqueNetId);
 		P_GET_STRUCT_REF(FBPUserOnlineAccount,Z_Param_Out_AccountInfo);
 		P_GET_ENUM_REF(EBlueprintResultSwitch,Z_Param_Out_Result);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		UAdvancedIdentityLibrary::GetUserAccount(Z_Param_WorldContextObject,Z_Param_Out_UniqueNetId,Z_Param_Out_AccountInfo,(EBlueprintResultSwitch&)(Z_Param_Out_Result));
+		UAdvancedIdentityLibrary::GetUserAccount(Z_Param_Out_UniqueNetId,Z_Param_Out_AccountInfo,(EBlueprintResultSwitch&)(Z_Param_Out_Result));
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(UAdvancedIdentityLibrary::execGetPlayerNickname)
 	{
-		P_GET_OBJECT(UObject,Z_Param_WorldContextObject);
 		P_GET_STRUCT_REF(FBPUniqueNetId,Z_Param_Out_UniqueNetID);
 		P_GET_PROPERTY_REF(FStrProperty,Z_Param_Out_PlayerNickname);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		UAdvancedIdentityLibrary::GetPlayerNickname(Z_Param_WorldContextObject,Z_Param_Out_UniqueNetID,Z_Param_Out_PlayerNickname);
+		UAdvancedIdentityLibrary::GetPlayerNickname(Z_Param_Out_UniqueNetID,Z_Param_Out_PlayerNickname);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(UAdvancedIdentityLibrary::execGetPlayerAuthToken)
 	{
-		P_GET_OBJECT(UObject,Z_Param_WorldContextObject);
 		P_GET_OBJECT(APlayerController,Z_Param_PlayerController);
 		P_GET_PROPERTY_REF(FStrProperty,Z_Param_Out_AuthToken);
 		P_GET_ENUM_REF(EBlueprintResultSwitch,Z_Param_Out_Result);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		UAdvancedIdentityLibrary::GetPlayerAuthToken(Z_Param_WorldContextObject,Z_Param_PlayerController,Z_Param_Out_AuthToken,(EBlueprintResultSwitch&)(Z_Param_Out_Result));
+		UAdvancedIdentityLibrary::GetPlayerAuthToken(Z_Param_PlayerController,Z_Param_Out_AuthToken,(EBlueprintResultSwitch&)(Z_Param_Out_Result));
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(UAdvancedIdentityLibrary::execGetLoginStatus)
 	{
-		P_GET_OBJECT(UObject,Z_Param_WorldContextObject);
 		P_GET_STRUCT_REF(FBPUniqueNetId,Z_Param_Out_UniqueNetID);
 		P_GET_ENUM_REF(EBPLoginStatus,Z_Param_Out_LoginStatus);
 		P_GET_ENUM_REF(EBlueprintResultSwitch,Z_Param_Out_Result);
 		P_FINISH;
 		P_NATIVE_BEGIN;
-		UAdvancedIdentityLibrary::GetLoginStatus(Z_Param_WorldContextObject,Z_Param_Out_UniqueNetID,(EBPLoginStatus&)(Z_Param_Out_LoginStatus),(EBlueprintResultSwitch&)(Z_Param_Out_Result));
+		UAdvancedIdentityLibrary::GetLoginStatus(Z_Param_Out_UniqueNetID,(EBPLoginStatus&)(Z_Param_Out_LoginStatus),(EBlueprintResultSwitch&)(Z_Param_Out_Result));
 		P_NATIVE_END;
 	}
 	void UAdvancedIdentityLibrary::StaticRegisterNativesUAdvancedIdentityLibrary()
@@ -166,11 +160,9 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	{
 		struct AdvancedIdentityLibrary_eventGetAllUserAccounts_Parms
 		{
-			UObject* WorldContextObject;
 			TArray<FBPUserOnlineAccount> AccountInfos;
 			EBlueprintResultSwitch Result;
 		};
-		static const UECodeGen_Private::FObjectPropertyParams NewProp_WorldContextObject;
 		static const UECodeGen_Private::FStructPropertyParams NewProp_AccountInfos_Inner;
 		static const UECodeGen_Private::FArrayPropertyParams NewProp_AccountInfos;
 		static const UECodeGen_Private::FBytePropertyParams NewProp_Result_Underlying;
@@ -181,13 +173,11 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #endif
 		static const UECodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_WorldContextObject = { "WorldContextObject", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetAllUserAccounts_Parms, WorldContextObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_AccountInfos_Inner = { "AccountInfos", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UScriptStruct_FBPUserOnlineAccount, METADATA_PARAMS(0, nullptr) }; // 910726681
 	const UECodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_AccountInfos = { "AccountInfos", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetAllUserAccounts_Parms, AccountInfos), EArrayPropertyFlags::None, METADATA_PARAMS(0, nullptr) }; // 910726681
 	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_Result_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_Result = { "Result", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetAllUserAccounts_Parms, Result), Z_Construct_UEnum_AdvancedSessions_EBlueprintResultSwitch, METADATA_PARAMS(0, nullptr) }; // 3142505353
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::PropPointers[] = {
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_WorldContextObject,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_AccountInfos_Inner,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_AccountInfos,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::NewProp_Result_Underlying,
@@ -204,7 +194,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Get all known users accounts" },
 #endif
-		{ "WorldContext", "WorldContextObject" },
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAdvancedIdentityLibrary, nullptr, "GetAllUserAccounts", nullptr, nullptr, Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::PropPointers), sizeof(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::AdvancedIdentityLibrary_eventGetAllUserAccounts_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04422401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::Function_MetaDataParams), Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts_Statics::Function_MetaDataParams) };
@@ -223,12 +212,10 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	{
 		struct AdvancedIdentityLibrary_eventGetLoginStatus_Parms
 		{
-			UObject* WorldContextObject;
 			FBPUniqueNetId UniqueNetID;
 			EBPLoginStatus LoginStatus;
 			EBlueprintResultSwitch Result;
 		};
-		static const UECodeGen_Private::FObjectPropertyParams NewProp_WorldContextObject;
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_UniqueNetID_MetaData[];
 #endif
@@ -243,7 +230,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #endif
 		static const UECodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_WorldContextObject = { "WorldContextObject", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetLoginStatus_Parms, WorldContextObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(0, nullptr) };
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_UniqueNetID_MetaData[] = {
 		{ "NativeConst", "" },
@@ -255,7 +241,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_Result_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_Result = { "Result", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetLoginStatus_Parms, Result), Z_Construct_UEnum_AdvancedSessions_EBlueprintResultSwitch, METADATA_PARAMS(0, nullptr) }; // 3142505353
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::PropPointers[] = {
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_WorldContextObject,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_UniqueNetID,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_LoginStatus_Underlying,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::NewProp_LoginStatus,
@@ -273,7 +258,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Get the login status of a local player" },
 #endif
-		{ "WorldContext", "WorldContextObject" },
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAdvancedIdentityLibrary, nullptr, "GetLoginStatus", nullptr, nullptr, Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::PropPointers), sizeof(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::AdvancedIdentityLibrary_eventGetLoginStatus_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04422401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::Function_MetaDataParams), Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus_Statics::Function_MetaDataParams) };
@@ -292,12 +276,10 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	{
 		struct AdvancedIdentityLibrary_eventGetPlayerAuthToken_Parms
 		{
-			UObject* WorldContextObject;
 			APlayerController* PlayerController;
 			FString AuthToken;
 			EBlueprintResultSwitch Result;
 		};
-		static const UECodeGen_Private::FObjectPropertyParams NewProp_WorldContextObject;
 		static const UECodeGen_Private::FObjectPropertyParams NewProp_PlayerController;
 		static const UECodeGen_Private::FStrPropertyParams NewProp_AuthToken;
 		static const UECodeGen_Private::FBytePropertyParams NewProp_Result_Underlying;
@@ -308,13 +290,11 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #endif
 		static const UECodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_WorldContextObject = { "WorldContextObject", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetPlayerAuthToken_Parms, WorldContextObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_PlayerController = { "PlayerController", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetPlayerAuthToken_Parms, PlayerController), Z_Construct_UClass_APlayerController_NoRegister, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FStrPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_AuthToken = { "AuthToken", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Str, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetPlayerAuthToken_Parms, AuthToken), METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_Result_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_Result = { "Result", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetPlayerAuthToken_Parms, Result), Z_Construct_UEnum_AdvancedSessions_EBlueprintResultSwitch, METADATA_PARAMS(0, nullptr) }; // 3142505353
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::PropPointers[] = {
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_WorldContextObject,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_PlayerController,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_AuthToken,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::NewProp_Result_Underlying,
@@ -331,7 +311,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Get the auth token for a local player" },
 #endif
-		{ "WorldContext", "WorldContextObject" },
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAdvancedIdentityLibrary, nullptr, "GetPlayerAuthToken", nullptr, nullptr, Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::PropPointers), sizeof(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::AdvancedIdentityLibrary_eventGetPlayerAuthToken_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04422401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::Function_MetaDataParams), Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken_Statics::Function_MetaDataParams) };
@@ -350,11 +329,9 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	{
 		struct AdvancedIdentityLibrary_eventGetPlayerNickname_Parms
 		{
-			UObject* WorldContextObject;
 			FBPUniqueNetId UniqueNetID;
 			FString PlayerNickname;
 		};
-		static const UECodeGen_Private::FObjectPropertyParams NewProp_WorldContextObject;
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_UniqueNetID_MetaData[];
 #endif
@@ -366,7 +343,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #endif
 		static const UECodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_WorldContextObject = { "WorldContextObject", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetPlayerNickname_Parms, WorldContextObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(0, nullptr) };
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_UniqueNetID_MetaData[] = {
 		{ "NativeConst", "" },
@@ -375,7 +351,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_UniqueNetID = { "UniqueNetID", nullptr, (EPropertyFlags)0x0010000008000182, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetPlayerNickname_Parms, UniqueNetID), Z_Construct_UScriptStruct_FBPUniqueNetId, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_UniqueNetID_MetaData), Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_UniqueNetID_MetaData) }; // 740343174
 	const UECodeGen_Private::FStrPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_PlayerNickname = { "PlayerNickname", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Str, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetPlayerNickname_Parms, PlayerNickname), METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::PropPointers[] = {
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_WorldContextObject,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_UniqueNetID,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::NewProp_PlayerNickname,
 	};
@@ -389,7 +364,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Get a players nickname" },
 #endif
-		{ "WorldContext", "WorldContextObject" },
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAdvancedIdentityLibrary, nullptr, "GetPlayerNickname", nullptr, nullptr, Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::PropPointers), sizeof(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::AdvancedIdentityLibrary_eventGetPlayerNickname_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x14422401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::Function_MetaDataParams), Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname_Statics::Function_MetaDataParams) };
@@ -408,12 +382,10 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	{
 		struct AdvancedIdentityLibrary_eventGetUserAccount_Parms
 		{
-			UObject* WorldContextObject;
 			FBPUniqueNetId UniqueNetId;
 			FBPUserOnlineAccount AccountInfo;
 			EBlueprintResultSwitch Result;
 		};
-		static const UECodeGen_Private::FObjectPropertyParams NewProp_WorldContextObject;
 #if WITH_METADATA
 		static const UECodeGen_Private::FMetaDataPairParam NewProp_UniqueNetId_MetaData[];
 #endif
@@ -427,7 +399,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #endif
 		static const UECodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_WorldContextObject = { "WorldContextObject", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetUserAccount_Parms, WorldContextObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(0, nullptr) };
 #if WITH_METADATA
 	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_UniqueNetId_MetaData[] = {
 		{ "NativeConst", "" },
@@ -438,7 +409,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_Result_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 	const UECodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_Result = { "Result", nullptr, (EPropertyFlags)0x0010000000000180, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedIdentityLibrary_eventGetUserAccount_Parms, Result), Z_Construct_UEnum_AdvancedSessions_EBlueprintResultSwitch, METADATA_PARAMS(0, nullptr) }; // 3142505353
 	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::PropPointers[] = {
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_WorldContextObject,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_UniqueNetId,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_AccountInfo,
 		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::NewProp_Result_Underlying,
@@ -455,7 +425,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 #if !UE_BUILD_SHIPPING
 		{ "ToolTip", "Get a users account" },
 #endif
-		{ "WorldContext", "WorldContextObject" },
 	};
 #endif
 	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAdvancedIdentityLibrary, nullptr, "GetUserAccount", nullptr, nullptr, Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::PropPointers), sizeof(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::AdvancedIdentityLibrary_eventGetUserAccount_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04422401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::Function_MetaDataParams), Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount_Statics::Function_MetaDataParams) };
@@ -930,11 +899,11 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	};
 	static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UAdvancedIdentityLibrary_Statics::DependentSingletons) < 16);
 	const FClassFunctionLinkInfo Z_Construct_UClass_UAdvancedIdentityLibrary_Statics::FuncInfo[] = {
-		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts, "GetAllUserAccounts" }, // 1145054867
-		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus, "GetLoginStatus" }, // 1773547519
-		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken, "GetPlayerAuthToken" }, // 3876913233
-		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname, "GetPlayerNickname" }, // 1258617162
-		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount, "GetUserAccount" }, // 1493515016
+		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetAllUserAccounts, "GetAllUserAccounts" }, // 2287199101
+		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetLoginStatus, "GetLoginStatus" }, // 2931643874
+		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerAuthToken, "GetPlayerAuthToken" }, // 1195485812
+		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetPlayerNickname, "GetPlayerNickname" }, // 3861936431
+		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccount, "GetUserAccount" }, // 2069331825
 		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccountAccessToken, "GetUserAccountAccessToken" }, // 2579924149
 		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccountAttribute, "GetUserAccountAttribute" }, // 874934619
 		{ &Z_Construct_UFunction_UAdvancedIdentityLibrary_GetUserAccountAuthAttribute, "GetUserAccountAuthAttribute" }, // 2586562707
@@ -983,15 +952,15 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedIdentityLibrary() {}
 	UAdvancedIdentityLibrary::UAdvancedIdentityLibrary(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UAdvancedIdentityLibrary);
 	UAdvancedIdentityLibrary::~UAdvancedIdentityLibrary() {}
-	struct Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics
+	struct Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UAdvancedIdentityLibrary, UAdvancedIdentityLibrary::StaticClass, TEXT("UAdvancedIdentityLibrary"), &Z_Registration_Info_UClass_UAdvancedIdentityLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAdvancedIdentityLibrary), 1517698197U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_UAdvancedIdentityLibrary, UAdvancedIdentityLibrary::StaticClass, TEXT("UAdvancedIdentityLibrary"), &Z_Registration_Info_UClass_UAdvancedIdentityLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAdvancedIdentityLibrary), 626968111U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_1399357188(TEXT("/Script/AdvancedSessions"),
-		Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_3960458479(TEXT("/Script/AdvancedSessions"),
+		Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedIdentityLibrary_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

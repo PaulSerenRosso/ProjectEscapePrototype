@@ -1,4 +1,4 @@
-#include "D:/Github/ProjectEscapePrototype/ProjectEscapeProto/Intermediate/Build/Win64/x64/ProjectEscapeProtoEditor/Development/Engine/SharedDefinitions.Engine.Cpp20.h"
+#include "D:/Unreal Projects/ProjectEscapePrototype/ProjectEscapeProto/Intermediate/Build/Win64/x64/ProjectEscapeProtoEditor/Development/Engine/SharedDefinitions.Engine.Cpp20.h"
 #undef UE_IS_ENGINE_MODULE
 #undef DEPRECATED_FORGAME
 #define DEPRECATED_FORGAME DEPRECATED
@@ -28,11 +28,10 @@
 #define ONLINEBASE_API DLLIMPORT
 #define ONLINESUBSYSTEMUTILS_PACKAGE 1
 #define ONLINESUBSYSTEMUTILS_API DLLIMPORT
-#define STEAM_SDK_VER TEXT("1.53")
-#define STEAM_SDK_VER_PATH TEXT("Steamv153")
 #define WITH_ADVANCED_STEAM_SESSIONS 1
 #define ADVANCEDSTEAMSESSIONS_API DLLEXPORT
 #define WITH_ADVANCED_SESSIONS 1
 #define ADVANCEDSESSIONS_API DLLIMPORT
-#define STEAM_SDK_INSTALLED 1
-#define STEAMSHARED_API DLLIMPORT
+#define STEAM_SDK_VER TEXT("1.53")
+#define STEAM_SDK_VER_PATH TEXT("Steamv153")
+#define ONLINESUBSYSTEMSTEAM_API DLLIMPORT

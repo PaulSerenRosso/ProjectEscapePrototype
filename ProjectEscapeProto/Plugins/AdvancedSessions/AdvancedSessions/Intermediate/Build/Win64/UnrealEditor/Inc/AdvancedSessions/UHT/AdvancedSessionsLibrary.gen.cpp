@@ -6,7 +6,6 @@
 
 #include "UObject/GeneratedCppIncludes.h"
 #include "AdvancedSessions/Classes/AdvancedSessionsLibrary.h"
-#include "../../Source/Runtime/Engine/Classes/GameFramework/OnlineReplStructs.h"
 #include "AdvancedSessions/Classes/BlueprintDataDefinitions.h"
 #include "FindSessionsCallbackProxy.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
@@ -25,7 +24,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedSessionsLibrary() {}
 	ENGINE_API UClass* Z_Construct_UClass_APlayerController_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_APlayerState_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UBlueprintFunctionLibrary();
-	ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FUniqueNetIdRepl();
 	ONLINESUBSYSTEMUTILS_API UScriptStruct* Z_Construct_UScriptStruct_FBlueprintSessionResult();
 	UPackage* Z_Construct_UPackage__Script_AdvancedSessions();
 // End Cross Module References
@@ -91,14 +89,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedSessionsLibrary() {}
 		P_FINISH;
 		P_NATIVE_BEGIN;
 		UAdvancedSessionsLibrary::UniqueNetIdToString(Z_Param_Out_UniqueNetId,Z_Param_Out_String);
-		P_NATIVE_END;
-	}
-	DEFINE_FUNCTION(UAdvancedSessionsLibrary::execConv_BPUniqueIDToUniqueNetIDRepl)
-	{
-		P_GET_STRUCT_REF(FBPUniqueNetId,Z_Param_Out_InUniqueID);
-		P_FINISH;
-		P_NATIVE_BEGIN;
-		*(FUniqueNetIdRepl*)Z_Param__Result=UAdvancedSessionsLibrary::Conv_BPUniqueIDToUniqueNetIDRepl(Z_Param_Out_InUniqueID);
 		P_NATIVE_END;
 	}
 	DEFINE_FUNCTION(UAdvancedSessionsLibrary::execEqualEqual_UNetIDUnetID)
@@ -400,7 +390,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedSessionsLibrary() {}
 		static const FNameNativePtrPair Funcs[] = {
 			{ "AddOrModifyExtraSettings", &UAdvancedSessionsLibrary::execAddOrModifyExtraSettings },
 			{ "BanPlayer", &UAdvancedSessionsLibrary::execBanPlayer },
-			{ "Conv_BPUniqueIDToUniqueNetIDRepl", &UAdvancedSessionsLibrary::execConv_BPUniqueIDToUniqueNetIDRepl },
 			{ "EqualEqual_UNetIDUnetID", &UAdvancedSessionsLibrary::execEqualEqual_UNetIDUnetID },
 			{ "FindSessionPropertyByName", &UAdvancedSessionsLibrary::execFindSessionPropertyByName },
 			{ "FindSessionPropertyIndexByName", &UAdvancedSessionsLibrary::execFindSessionPropertyIndexByName },
@@ -553,62 +542,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedSessionsLibrary() {}
 		if (!ReturnFunction)
 		{
 			UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UAdvancedSessionsLibrary_BanPlayer_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics
-	{
-		struct AdvancedSessionsLibrary_eventConv_BPUniqueIDToUniqueNetIDRepl_Parms
-		{
-			FBPUniqueNetId InUniqueID;
-			FUniqueNetIdRepl ReturnValue;
-		};
-#if WITH_METADATA
-		static const UECodeGen_Private::FMetaDataPairParam NewProp_InUniqueID_MetaData[];
-#endif
-		static const UECodeGen_Private::FStructPropertyParams NewProp_InUniqueID;
-		static const UECodeGen_Private::FStructPropertyParams NewProp_ReturnValue;
-		static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
-#if WITH_METADATA
-		static const UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UECodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::NewProp_InUniqueID_MetaData[] = {
-		{ "NativeConst", "" },
-	};
-#endif
-	const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::NewProp_InUniqueID = { "InUniqueID", nullptr, (EPropertyFlags)0x0010000008000182, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedSessionsLibrary_eventConv_BPUniqueIDToUniqueNetIDRepl_Parms, InUniqueID), Z_Construct_UScriptStruct_FBPUniqueNetId, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::NewProp_InUniqueID_MetaData), Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::NewProp_InUniqueID_MetaData) }; // 740343174
-	const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AdvancedSessionsLibrary_eventConv_BPUniqueIDToUniqueNetIDRepl_Parms, ReturnValue), Z_Construct_UScriptStruct_FUniqueNetIdRepl, METADATA_PARAMS(0, nullptr) }; // 3233782123
-	const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::PropPointers[] = {
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::NewProp_InUniqueID,
-		(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::NewProp_ReturnValue,
-	};
-#if WITH_METADATA
-	const UECodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::Function_MetaDataParams[] = {
-		{ "BlueprintAutocast", "" },
-		{ "Category", "Online|AdvancedSessions|PlayerInfo|PlayerID" },
-#if !UE_BUILD_SHIPPING
-		{ "Comment", "/** Converts a FBPUniqueNetID into a FUniqueNetID_Repl */" },
-#endif
-		{ "CompactNodeTitle", "->" },
-		{ "DisplayName", "ToUniqueNetIDRepl (Unique Net ID)" },
-		{ "ModuleRelativePath", "Classes/AdvancedSessionsLibrary.h" },
-#if !UE_BUILD_SHIPPING
-		{ "ToolTip", "Converts a FBPUniqueNetID into a FUniqueNetID_Repl" },
-#endif
-	};
-#endif
-	const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAdvancedSessionsLibrary, nullptr, "Conv_BPUniqueIDToUniqueNetIDRepl", nullptr, nullptr, Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::PropPointers), sizeof(Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::AdvancedSessionsLibrary_eventConv_BPUniqueIDToUniqueNetIDRepl_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x14422401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::Function_MetaDataParams), Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::Function_MetaDataParams) };
-	static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::PropPointers) < 2048);
-	static_assert(sizeof(Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::AdvancedSessionsLibrary_eventConv_BPUniqueIDToUniqueNetIDRepl_Parms) < MAX_uint16);
-	UFunction* Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -2636,7 +2569,6 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedSessionsLibrary() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_UAdvancedSessionsLibrary_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_UAdvancedSessionsLibrary_AddOrModifyExtraSettings, "AddOrModifyExtraSettings" }, // 1547857935
 		{ &Z_Construct_UFunction_UAdvancedSessionsLibrary_BanPlayer, "BanPlayer" }, // 1004010827
-		{ &Z_Construct_UFunction_UAdvancedSessionsLibrary_Conv_BPUniqueIDToUniqueNetIDRepl, "Conv_BPUniqueIDToUniqueNetIDRepl" }, // 1236089704
 		{ &Z_Construct_UFunction_UAdvancedSessionsLibrary_EqualEqual_UNetIDUnetID, "EqualEqual_UNetIDUnetID" }, // 2422709722
 		{ &Z_Construct_UFunction_UAdvancedSessionsLibrary_FindSessionPropertyByName, "FindSessionPropertyByName" }, // 977166916
 		{ &Z_Construct_UFunction_UAdvancedSessionsLibrary_FindSessionPropertyIndexByName, "FindSessionPropertyIndexByName" }, // 489369009
@@ -2713,15 +2645,15 @@ void EmptyLinkFunctionForGeneratedCodeAdvancedSessionsLibrary() {}
 	UAdvancedSessionsLibrary::UAdvancedSessionsLibrary(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UAdvancedSessionsLibrary);
 	UAdvancedSessionsLibrary::~UAdvancedSessionsLibrary() {}
-	struct Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics
+	struct Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics
 	{
 		static const FClassRegisterCompiledInInfo ClassInfo[];
 	};
-	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics::ClassInfo[] = {
-		{ Z_Construct_UClass_UAdvancedSessionsLibrary, UAdvancedSessionsLibrary::StaticClass, TEXT("UAdvancedSessionsLibrary"), &Z_Registration_Info_UClass_UAdvancedSessionsLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAdvancedSessionsLibrary), 1146593260U) },
+	const FClassRegisterCompiledInInfo Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics::ClassInfo[] = {
+		{ Z_Construct_UClass_UAdvancedSessionsLibrary, UAdvancedSessionsLibrary::StaticClass, TEXT("UAdvancedSessionsLibrary"), &Z_Registration_Info_UClass_UAdvancedSessionsLibrary, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UAdvancedSessionsLibrary), 188755436U) },
 	};
-	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_1867620160(TEXT("/Script/AdvancedSessions"),
-		Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Github_ProjectEscapePrototype_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics::ClassInfo),
+	static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_3070536840(TEXT("/Script/AdvancedSessions"),
+		Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_ProjectEscapeProto_Plugins_AdvancedSessions_AdvancedSessions_Source_AdvancedSessions_Classes_AdvancedSessionsLibrary_h_Statics::ClassInfo),
 		nullptr, 0,
 		nullptr, 0);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

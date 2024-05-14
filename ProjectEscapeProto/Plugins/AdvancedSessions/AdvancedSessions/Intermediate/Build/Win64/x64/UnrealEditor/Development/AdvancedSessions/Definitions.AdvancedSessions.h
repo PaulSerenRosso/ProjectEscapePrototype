@@ -1,4 +1,4 @@
-#include "D:/Github/ProjectEscapePrototype/ProjectEscapeProto/Intermediate/Build/Win64/x64/ProjectEscapeProtoEditor/Development/Engine/SharedDefinitions.Engine.Cpp20.h"
+#include "D:/Unreal Projects/ProjectEscapePrototype/ProjectEscapeProto/Intermediate/Build/Win64/x64/ProjectEscapeProtoEditor/Development/Engine/SharedDefinitions.Engine.Cpp20.h"
 #undef UE_IS_ENGINE_MODULE
 #undef DEPRECATED_FORGAME
 #define DEPRECATED_FORGAME DEPRECATED
@@ -22,11 +22,11 @@
 #define IMPLEMENT_SIGNING_KEY_REGISTRATION() 
 #define DEPRECATED_FORGAME DEPRECATED
 #define UE_DEPRECATED_FORGAME UE_DEPRECATED
-#define WITH_ADVANCED_SESSIONS 1
-#define ADVANCEDSESSIONS_API DLLEXPORT
 #define ONLINESUBSYSTEM_PACKAGE 1
 #define DEBUG_LAN_BEACON 0
 #define ONLINESUBSYSTEM_API DLLIMPORT
 #define ONLINEBASE_API DLLIMPORT
 #define ONLINESUBSYSTEMUTILS_PACKAGE 1
 #define ONLINESUBSYSTEMUTILS_API DLLIMPORT
+#define WITH_ADVANCED_SESSIONS 1
+#define ADVANCEDSESSIONS_API DLLEXPORT

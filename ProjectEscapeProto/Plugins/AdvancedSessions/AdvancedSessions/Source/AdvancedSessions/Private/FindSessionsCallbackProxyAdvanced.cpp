@@ -3,6 +3,7 @@
 
 #include "Online/OnlineSessionNames.h"
 
+
 //////////////////////////////////////////////////////////////////////////
 // UFindSessionsCallbackProxyAdvanced
 
@@ -35,7 +36,7 @@ UFindSessionsCallbackProxyAdvanced* UFindSessionsCallbackProxyAdvanced::FindSess
 
 void UFindSessionsCallbackProxyAdvanced::Activate()
 {
-	FOnlineSubsystemBPCallHelperAdvanced Helper(TEXT("FindSessions"), GEngine->GetWorldFromContextObject(WorldContextObject.Get(), EGetWorldErrorMode::LogAndReturnNull));
+	FOnlineSubsystemBPCallHelperAdvanced Helper(TEXT("FindSessions"), GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull));
 	Helper.QueryIDFromPlayerController(PlayerControllerWeakPtr.Get());
 
 	if (Helper.IsValid())
@@ -88,7 +89,7 @@ void UFindSessionsCallbackProxyAdvanced::Activate()
 			/** #define SEARCH_LOBBIES FName(TEXT("LOBBYSEARCH"))*/
 
 			if (bEmptyServersOnly)
-				tem.Set(SEARCH_EMPTY_SERVERS_ONLY, true, EOnlineComparisonOp::Equals);
+			tem.Set(SEARCH_EMPTY_SERVERS_ONLY, true, EOnlineComparisonOp::Equals);
 
 			if (bNonEmptyServersOnly)
 				tem.Set(SEARCH_NONEMPTY_SERVERS_ONLY, true, EOnlineComparisonOp::Equals);
@@ -130,24 +131,21 @@ void UFindSessionsCallbackProxyAdvanced::Activate()
 			case EBPServerPresenceSearchType::AllServers:
 			default:
 			{
-				//if (IOnlineSubsystem::DoesInstanceExist("STEAM"))
-				//{
-				bRunSecondSearch = true;
+				// Only steam uses the separate searching flags currently
+				if (IOnlineSubsystem::DoesInstanceExist("STEAM"))
+				{
+					bRunSecondSearch = true;
 
-				SearchObjectDedicated = MakeShareable(new FOnlineSessionSearch);
-				SearchObjectDedicated->MaxSearchResults = MaxResults;
-				SearchObjectDedicated->bIsLanQuery = bUseLAN;
+					SearchObjectDedicated = MakeShareable(new FOnlineSessionSearch);
+					SearchObjectDedicated->MaxSearchResults = MaxResults;
+					SearchObjectDedicated->bIsLanQuery = bUseLAN;
 
-				FOnlineSearchSettingsEx DedicatedOnly = tem;
+					FOnlineSearchSettingsEx DedicatedOnly = tem;
+					tem.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 
-				tem.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
-
-				if (bSearchLobbies)
-					tem.Set(SEARCH_LOBBIES, true, EOnlineComparisonOp::Equals);
-
-				//DedicatedOnly.Set(SEARCH_DEDICATED_ONLY, true, EOnlineComparisonOp::Equals);
-				SearchObjectDedicated->QuerySettings = DedicatedOnly;
-				//}
+					//DedicatedOnly.Set(SEARCH_DEDICATED_ONLY, true, EOnlineComparisonOp::Equals);
+					SearchObjectDedicated->QuerySettings = DedicatedOnly;
+				}
 			}
 			break;
 			}
@@ -172,15 +170,8 @@ void UFindSessionsCallbackProxyAdvanced::Activate()
 
 void UFindSessionsCallbackProxyAdvanced::OnCompleted(bool bSuccess)
 {
-	FOnlineSubsystemBPCallHelperAdvanced Helper(TEXT("FindSessionsCallback"), GEngine->GetWorldFromContextObject(WorldContextObject.Get(), EGetWorldErrorMode::LogAndReturnNull));
+	FOnlineSubsystemBPCallHelperAdvanced Helper(TEXT("FindSessionsCallback"), GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull));
 	Helper.QueryIDFromPlayerController(PlayerControllerWeakPtr.Get());
-
-	if (!Helper.IsValid())
-	{
-		// Fail immediately
-		OnFailure.Broadcast(SessionSearchResults);
-		return;
-	}
 
 	if (!bRunSecondSearch && Helper.IsValid())
 	{
@@ -206,7 +197,7 @@ void UFindSessionsCallbackProxyAdvanced::OnCompleted(bool bSuccess)
 
 					FBlueprintSessionResult BPResult;
 					BPResult.OnlineResult = Result;
-					SessionSearchResults.AddUnique(BPResult);
+					SessionSearchResults.Add(BPResult);
 				}
 				OnSuccess.Broadcast(SessionSearchResults);
 				return;
@@ -225,7 +216,7 @@ void UFindSessionsCallbackProxyAdvanced::OnCompleted(bool bSuccess)
 
 					FBlueprintSessionResult BPResult;
 					BPResult.OnlineResult = Result;
-					SessionSearchResults.AddUnique(BPResult);
+					SessionSearchResults.Add(BPResult);
 				}
 				if (!bRunSecondSearch)
 				{
