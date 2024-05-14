@@ -15,5 +15,4 @@ UCLASS()
 class PROJECTESCAPEPROTO_API UOnlineGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
-	
 };
