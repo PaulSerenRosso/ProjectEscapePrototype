@@ -23,5 +23,9 @@ class PROJECTESCAPEPROTO_API UOnlineGameInstance : public UGameInstance
 	void JoinFirstSession();
 
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
+
+protected:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FString pathToLobbyMap = "/Game/FirstPerson/Maps/FirstPersonMap";
 	
 };

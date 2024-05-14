@@ -73,8 +73,8 @@ void UOnlineGameInstance::OnJoinSessionComplete(FName Name, EOnJoinSessionComple
 
 			if (PlayerController && Sessions->GetResolvedConnectString(Name, TravelURL))
 			{
+				TravelURL += pathToLobbyMap;
 				UE_LOG(LogTemp, Warning, TEXT("TravelURL: %s"), *TravelURL);
-				TravelURL
 				PlayerController->ClientTravel(TravelURL, ETravelType::TRAVEL_Absolute);
 			}
 		}
