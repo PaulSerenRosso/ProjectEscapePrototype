@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-VivoxCore.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Intermediate\Build\Win64\x64\ProjectEscapeProtoEditor\Development\Engine\SharedPCH.Engine.Cpp20.h.obj"
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\VivoxCore\Intermediate\Build\Win64\x64\UnrealEditor\Development\VivoxCore\Module.VivoxCore.cpp.obj"
+"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\VivoxCore\Intermediate\Build\Win64\x64\UnrealEditor\Development\VivoxCore\Default.rc2.res"
+/OUT:"D:\Unreal Projects\ProjectEscapePrototype\ProjectEscapeProto\Plugins\VivoxCore\Intermediate\Build\Win64\x64\UnrealEditor\Development\VivoxCore\UnrealEditor-VivoxCore.lib"
