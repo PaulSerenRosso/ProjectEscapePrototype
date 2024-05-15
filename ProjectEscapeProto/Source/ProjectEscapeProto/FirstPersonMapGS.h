@@ -19,7 +19,6 @@ class PROJECTESCAPEPROTO_API AFirstPersonMapGS : public AGameState
 public:
 	void CreateChannel();
 	IChannelSession& JoinChannel(ILoginSession *MyLoginSessionPtr);
-	//ChannelId& GetChannel() const { return Channel; }
 	
 private:
 	//UPROPERTY(Replicated, Category = "Vivox")

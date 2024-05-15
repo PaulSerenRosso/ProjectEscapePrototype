@@ -29,10 +29,12 @@ public:
 
 	void InitializeVivox();
 	void OnChannelStateChanged(const IChannelConnectionState& ChannelConnectionState);
-	void JoinChannel();
+	void JoinChannelOnClient();
 	void OnLoginSessionStateChanged(LoginState State);
+	void Update3DPosition(AActor* Actor);
 
 protected:
 	ILoginSession *MyLoginSessionPtr;
 	IClient *MyVoiceClient;
+	IChannelSession* MyChannelSession;
  };

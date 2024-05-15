@@ -6,6 +6,7 @@
 #include "FirstPersonMapGS.h"
 #include "OnlineGameInstance.h"
 #include "GameFramework/GameState.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UVivoxManager::UVivoxManager()
@@ -39,7 +40,13 @@ void UVivoxManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	float PositionalUpdateRate = 0.2f; // Send position and orientation update every 0.2 seconds.
+	static float NextUpdateTime = UGameplayStatics::GetRealTimeSeconds(GetWorld()) + PositionalUpdateRate;
+	if (UGameplayStatics::GetRealTimeSeconds(GetWorld()) > NextUpdateTime)
+	{
+		NextUpdateTime += PositionalUpdateRate;
+		Update3DPosition(GetOwner());
+	}
 }
 
 void UVivoxManager::InitializeVivox()
@@ -81,7 +88,7 @@ void UVivoxManager::InitializeVivox()
 			}
 
 			
-			JoinChannel();
+			JoinChannelOnClient();
 		}
 	});
 	// Request the user to login to Vivox
@@ -110,7 +117,7 @@ void UVivoxManager::OnChannelStateChanged(const IChannelConnectionState& Channel
 	}
 }
 
-void UVivoxManager::JoinChannel()
+void UVivoxManager::JoinChannelOnClient()
 {
 	AFirstPersonMapGS* MyGameState = Cast<AFirstPersonMapGS>(GetWorld()->GetGameState());
 	if (MyGameState == nullptr)
@@ -119,11 +126,11 @@ void UVivoxManager::JoinChannel()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("GameState is null"));
 		return;
 	}
-	IChannelSession& MyChannelSession = MyGameState->JoinChannel(MyLoginSessionPtr);
-	MyChannelSession.EventChannelStateChanged.AddUObject(this, &UVivoxManager::OnChannelStateChanged);
+	MyChannelSession = &MyGameState->JoinChannel(MyLoginSessionPtr);
+	MyChannelSession->EventChannelStateChanged.AddUObject(this, &UVivoxManager::OnChannelStateChanged);
 
 
-	MyChannelSession.EventAfterParticipantUpdated.AddLambda([](const IParticipant& Participant)
+	MyChannelSession->EventAfterParticipantUpdated.AddLambda([](const IParticipant& Participant)
 	{
 		FString Message = FString::Printf(
 			TEXT("Speech Detected %f"), Participant.AudioEnergy());
@@ -143,4 +150,19 @@ void UVivoxManager::OnLoginSessionStateChanged(LoginState State)
 		UE_LOG(LogTemp, Error, TEXT("LoginSession Logged In\n"));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("LoginSession Logged In"));
 	}
+}
+
+void UVivoxManager::Update3DPosition(AActor *Actor)
+{
+	if (MyChannelSession == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("ChannelSession is null. Not Connected to a channel ?"));
+		return;
+	}
+	
+	MyLoginSessionPtr->GetChannelSession(MyChannelSession->Channel()).Set3DPosition(
+		Actor->GetActorLocation(),
+		Actor->GetActorLocation(),
+		Actor->GetActorForwardVector(),
+		Actor->GetActorUpVector());
 }
