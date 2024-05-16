@@ -92,7 +92,7 @@ void UVivoxManager::InitializeVivox()
 		}
 	});
 	// Request the user to login to Vivox
-	MyLoginSession.BeginLogin(MyGameInstance->kDefaultServer,
+	MyLoginSession.BeginLogin(MyGameInstance->kDefaulEndPoint,
 	                          MyLoginSession.GetLoginToken(MyGameInstance->kDefaultIssuer,
 	                                                       MyGameInstance->kDefaultExpiration), OnBeginLoginCompleted);
 	MyLoginSession.EventStateChanged.AddUObject(this, &UVivoxManager::OnLoginSessionStateChanged);
