@@ -50,9 +50,15 @@ private:
 	void OnChannelSessionStateChanged(const IChannelConnectionState& ChannelConnectionState, FString String, FString String1);
 	void OnChannelSessionTextMessageReceived(const IChannelTextMessage& ChannelTextMessage, FString String, FString String1);
 	int32 JoinChannel(FString InputUserName, FString InputChannelName, ChannelType InputChannelType,
-	                  FMyChannel3DProperties InputChannel3dProperties, bool ConnectAudio, bool ConnectText,
-	                  bool SwitchTransmition, FTimespan Expiration);
+					  FMyChannel3DProperties InputChannel3dProperties, bool ConnectAudio, bool ConnectText,
+					  bool SwitchTransmition, FTimespan Expiration);
+	ChannelId* GetChannelId(FString Channelname);
 	void OnLoginSessionStateChanged(LoginState State, FString Username);
+	int32 Update3dPositionalChannel(FString InputUsername, FString InputChannelName, FVector SpeakerPosition,
+									FVector ListenerPosition, FVector ListenerForwardVector, FVector ListenerUpVector);
+public:
+	UFUNCTION(BlueprintCallable)
+	void TickPosittion(APawn *PlayerPawn);
 
 public:
 	FString kDefaultKey = "eyXkpK8qcw3r0YnyISUvA1NkiKLJlseF";
@@ -69,4 +75,5 @@ public:
 	TMap<FString, ChannelId> ChannelIds;
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Login State Changed", category="Vivox Subsystem|Account|Deligates")
 	F_Escape_OnLoginStateChanged OnLoginStateChanged;
+	FString MyInputUsername = "";
 };

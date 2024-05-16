@@ -176,16 +176,17 @@ int32 UOnlineGameInstance::JoinChannel(FString InputUserName, FString InputChann
 	}
 
 	AsyncTask(ENamedThreads::GameThread,
-	          [this, TempLoginSession, TempChannelId, Expiration, ConnectAudio, ConnectText, SwitchTransmition]()
+	          [this, TempLoginSession, TempChannelId, Expiration, ConnectAudio, ConnectText, SwitchTransmition, InputUserName]()
 	          {
 		          IChannelSession& MyChannelSession(TempLoginSession->GetChannelSession(TempChannelId));
 
 		          FString ConnectToken = MyChannelSession.GetConnectToken(kDefaultKey, Expiration);
 		          IChannelSession::FOnBeginConnectCompletedDelegate OnBeginConnectCompleted;
 
-		          OnBeginConnectCompleted.BindLambda([this, &MyChannelSession](VivoxCoreError Error)
+		          OnBeginConnectCompleted.BindLambda([this, &MyChannelSession, InputUserName](VivoxCoreError Error)
 		          {
 			          UE_LOG(LogTemp, Warning, TEXT("Join channel completed"));
+		          	MyInputUsername = InputUserName;
 		          });
 
 		          MyChannelSession.BeginConnect(ConnectAudio, ConnectText, SwitchTransmition, ConnectToken,
@@ -195,11 +196,75 @@ int32 UOnlineGameInstance::JoinChannel(FString InputUserName, FString InputChann
 	return 0;
 }
 
+int32 UOnlineGameInstance::Update3dPositionalChannel(FString InputUsername, FString InputChannelName,
+	FVector SpeakerPosition, FVector ListenerPosition, FVector ListenerForwardVector, FVector ListenerUpVector)
+{
+	if (InputUsername.IsEmpty() || InputChannelName.IsEmpty())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("please enter username and channelname"));
+		return 99;
+	}
+	
+	AccountId* TempAccountId = &AccountIds[InputUsername];
+
+	ILoginSession* TempLoginSession = &MyVoiceClient->GetLoginSession(*TempAccountId);
+	if (TempLoginSession == nullptr){
+		UE_LOG(LogTemp, Warning, TEXT("user its not valid"));
+		return 98;
+	}
+	
+	if (TempLoginSession->State() != LoginState::LoggedIn){
+		UE_LOG(LogTemp, Warning, TEXT("user its not logged in"));
+		return 97;
+	}
+
+	ChannelId* TempChannelId = GetChannelId(InputChannelName);
+	if (TempChannelId == nullptr)
+	{
+		return 96;
+	}
+
+	IChannelSession* TempChannelSession = &TempLoginSession->GetChannelSession(*TempChannelId);
+	if (TempChannelSession == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Channel session not found or not valid"));
+		return 95;
+	}
+
+	if (TempChannelSession == nullptr)
+	{
+		return 96;
+	}
+	
+	if (TempChannelSession->Channel().Type() != ChannelType::Positional)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("selected channel is not positional"));
+		return 95;
+	}
+	
+	return TempChannelSession->Set3DPosition(SpeakerPosition, ListenerPosition, ListenerForwardVector, ListenerUpVector);
+}
+
+void UOnlineGameInstance::TickPosittion(APawn* PlayerPawn)
+{
+	
+	Update3dPositionalChannel(MyInputUsername, "pommeDeTerre", PlayerPawn->GetActorLocation(), PlayerPawn->GetActorLocation(), PlayerPawn->GetActorForwardVector(), PlayerPawn->GetActorUpVector());
+}
+
+ChannelId* UOnlineGameInstance::GetChannelId(FString Channelname)
+{
+	if (!ChannelIds.Contains(Channelname))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("channel id not found"));
+		return nullptr;
+	}
+	return &ChannelIds[Channelname];
+}
 
 void UOnlineGameInstance::OnLoginSessionStateChanged(LoginState State, FString Username)
 {
 	if (OnLoginStateChanged.IsBound())
 	{
-		OnLoginStateChanged.Broadcast(Username, State);
+		
 	}
 }
