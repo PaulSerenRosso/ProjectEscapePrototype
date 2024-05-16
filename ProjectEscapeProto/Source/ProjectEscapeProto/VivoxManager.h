@@ -38,4 +38,5 @@ protected:
 	ILoginSession *MyLoginSessionPtr;
 	IClient *MyVoiceClient;
 	IChannelSession* MyChannelSession;
+	ChannelId ConnectedPositionalChannel;
  };

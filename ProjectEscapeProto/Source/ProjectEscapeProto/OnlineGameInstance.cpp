@@ -6,7 +6,7 @@
 void UOnlineGameInstance::Init()
 {
 	Super::Init();
-	InitVivox();
+	//InitVivox();
 }
 
 void UOnlineGameInstance::InitVivox()

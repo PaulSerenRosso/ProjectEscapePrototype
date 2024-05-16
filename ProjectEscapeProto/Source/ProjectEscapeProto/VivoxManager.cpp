@@ -24,7 +24,7 @@ void UVivoxManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitializeVivox();
+	//InitializeVivox();
 }
 
 void UVivoxManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -39,14 +39,14 @@ void UVivoxManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void UVivoxManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	float PositionalUpdateRate = 0.2f; // Send position and orientation update every 0.2 seconds.
-	static float NextUpdateTime = UGameplayStatics::GetRealTimeSeconds(GetWorld()) + PositionalUpdateRate;
-	if (UGameplayStatics::GetRealTimeSeconds(GetWorld()) > NextUpdateTime)
-	{
-		NextUpdateTime += PositionalUpdateRate;
-		Update3DPosition(GetOwner());
-	}
+	// Update3DPosition(GetOwner());
+	// float PositionalUpdateRate = 0.02f; // Send position and orientation update every 0.02 seconds.
+	// static float NextUpdateTime = UGameplayStatics::GetRealTimeSeconds(GetWorld()) + PositionalUpdateRate;
+	// if (UGameplayStatics::GetRealTimeSeconds(GetWorld()) > NextUpdateTime)
+	// {
+	// 	NextUpdateTime += PositionalUpdateRate;
+	// 	
+	// }
 }
 
 void UVivoxManager::InitializeVivox()
@@ -93,7 +93,7 @@ void UVivoxManager::InitializeVivox()
 	});
 	// Request the user to login to Vivox
 	MyLoginSession.BeginLogin(MyGameInstance->kDefaultServer,
-	                          MyLoginSession.GetLoginToken(MyGameInstance->kDefaultKey,
+	                          MyLoginSession.GetLoginToken(MyGameInstance->kDefaultIssuer,
 	                                                       MyGameInstance->kDefaultExpiration), OnBeginLoginCompleted);
 	MyLoginSession.EventStateChanged.AddUObject(this, &UVivoxManager::OnLoginSessionStateChanged);
 }
@@ -127,6 +127,7 @@ void UVivoxManager::JoinChannelOnClient()
 		return;
 	}
 	MyChannelSession = &MyGameState->JoinChannel(MyLoginSessionPtr);
+	ConnectedPositionalChannel = MyChannelSession->Channel();
 	MyChannelSession->EventChannelStateChanged.AddUObject(this, &UVivoxManager::OnChannelStateChanged);
 
 	ParticipantSpeakingUpdateRate UpdateRate = ParticipantSpeakingUpdateRate::Update10Hz;
@@ -155,6 +156,23 @@ void UVivoxManager::OnLoginSessionStateChanged(LoginState State)
 
 void UVivoxManager::Update3DPosition(AActor* Actor)
 {
+
+	/// Return if argument is invalid.
+	if (NULL == Actor)
+		return;
+
+	/// Return if we're not in a positional channel.
+	if (ConnectedPositionalChannel.IsEmpty())
+		return;
+
+	/// Update cached 3D position and orientation.
+	FVector NewPosition = Actor->GetActorLocation();
+	FVector NewForwardVector = Actor->GetActorForwardVector();
+	FVector NewUpVector = Actor->GetActorUpVector();
+
+	/// Set new position and orientation in connected positional channel.
+	MyLoginSessionPtr->GetChannelSession(ConnectedPositionalChannel).Set3DPosition(NewPosition, NewPosition, NewForwardVector, NewUpVector);
+/*
 	if (MyChannelSession == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("ChannelSession is null. Not Connected to a channel ?"));
@@ -165,13 +183,14 @@ void UVivoxManager::Update3DPosition(AActor* Actor)
 		Actor->GetActorLocation().Z);
 	UE_LOG(LogTemp, Log, TEXT("%s"), *msg);
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, *msg);
-	VivoxCoreError retrunValue = MyLoginSessionPtr->GetChannelSession(MyChannelSession->Channel()).Set3DPosition(
+	VivoxCoreError retrunValue = MyChannelSession->Set3DPosition(
 		Actor->GetActorLocation(),
 		Actor->GetActorLocation(),
 		Actor->GetActorForwardVector(),
 		Actor->GetActorUpVector());
 
 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("Set3DPosition return %d"), retrunValue));
+	*/
 }
 
 FString UVivoxManager::GetRandomString(int32 Length)
