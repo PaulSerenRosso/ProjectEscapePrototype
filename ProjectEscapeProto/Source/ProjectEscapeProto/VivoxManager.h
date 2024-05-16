@@ -32,6 +32,7 @@ public:
 	void JoinChannelOnClient();
 	void OnLoginSessionStateChanged(LoginState State);
 	void Update3DPosition(AActor* Actor);
+	static FString GetRandomString(int32 Length);
 
 protected:
 	ILoginSession *MyLoginSessionPtr;

@@ -8,13 +8,14 @@ void AFirstPersonMapGS::CreateChannel()
 {
 	UOnlineGameInstance* MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
 	
-	Channel3DProperties Channel3DProperties(1000,
+	Channel3DProperties Channel3DProperties(100,
 		90,
 		1.0,
 		EAudioFadeModel::InverseByDistance);
 	
 	Channel = ChannelId(MyGameInstance->kDefaultIssuer, "example_channel", MyGameInstance->kDefaultDomain,
 				  ChannelType::Positional, Channel3DProperties);
+	
 }
 
 IChannelSession& AFirstPersonMapGS::JoinChannel(ILoginSession *MyLoginSessionPtr)

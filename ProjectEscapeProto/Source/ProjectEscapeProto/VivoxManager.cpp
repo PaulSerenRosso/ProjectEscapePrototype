@@ -30,8 +30,8 @@ void UVivoxManager::BeginPlay()
 void UVivoxManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	MyLoginSessionPtr->Logout();
-	MyVoiceClient->Uninitialize();
+	// MyVoiceClient->Uninitialize();
+	// MyLoginSessionPtr->Logout();
 }
 
 
@@ -62,8 +62,8 @@ void UVivoxManager::InitializeVivox()
 	MyVoiceClient = &MyVoiceModule->VoiceClient();
 	MyVoiceClient->Initialize();
 
-	///
-	AccountId Account = AccountId(MyGameInstance->kDefaultIssuer, "example_user", MyGameInstance->kDefaultDomain);
+	FString RandomName = GetRandomString(10);
+	AccountId Account = AccountId(MyGameInstance->kDefaultIssuer, RandomName, MyGameInstance->kDefaultDomain);
 	ILoginSession& MyLoginSession(MyVoiceClient->GetLoginSession(Account));
 	MyLoginSessionPtr = &MyLoginSession;
 	bool IsLoggedIn = false;
@@ -78,7 +78,7 @@ void UVivoxManager::InitializeVivox()
 			GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, TEXT("LoginSession Logged In :)"));
 			UE_LOG(LogTemp, Log, TEXT("LoginSession Logged In\n"));
 
-//IF IM FIRST I CREATE THE CHANNEL
+			//IF IM FIRST I CREATE THE CHANNEL
 			if (GetOwner()->HasAuthority())
 			{
 				AFirstPersonMapGS* MyGameState = Cast<AFirstPersonMapGS>(GetWorld()->GetGameState());
@@ -87,7 +87,7 @@ void UVivoxManager::InitializeVivox()
 				UE_LOG(LogTemp, Log, TEXT("Channel Created\n"));
 			}
 
-			
+
 			JoinChannelOnClient();
 		}
 	});
@@ -129,7 +129,8 @@ void UVivoxManager::JoinChannelOnClient()
 	MyChannelSession = &MyGameState->JoinChannel(MyLoginSessionPtr);
 	MyChannelSession->EventChannelStateChanged.AddUObject(this, &UVivoxManager::OnChannelStateChanged);
 
-
+	ParticipantSpeakingUpdateRate UpdateRate = ParticipantSpeakingUpdateRate::Update10Hz;
+	MyLoginSessionPtr->SetParticipantSpeakingUpdateRate(UpdateRate);
 	MyChannelSession->EventAfterParticipantUpdated.AddLambda([](const IParticipant& Participant)
 	{
 		FString Message = FString::Printf(
@@ -152,17 +153,36 @@ void UVivoxManager::OnLoginSessionStateChanged(LoginState State)
 	}
 }
 
-void UVivoxManager::Update3DPosition(AActor *Actor)
+void UVivoxManager::Update3DPosition(AActor* Actor)
 {
 	if (MyChannelSession == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("ChannelSession is null. Not Connected to a channel ?"));
 		return;
 	}
-	
-	MyLoginSessionPtr->GetChannelSession(MyChannelSession->Channel()).Set3DPosition(
+	FString msg = FString::Printf(
+		TEXT("Updating 3D Position %f %f %f\n"), Actor->GetActorLocation().X, Actor->GetActorLocation().Y,
+		Actor->GetActorLocation().Z);
+	UE_LOG(LogTemp, Log, TEXT("%s"), *msg);
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, *msg);
+	VivoxCoreError retrunValue = MyLoginSessionPtr->GetChannelSession(MyChannelSession->Channel()).Set3DPosition(
 		Actor->GetActorLocation(),
 		Actor->GetActorLocation(),
 		Actor->GetActorForwardVector(),
 		Actor->GetActorUpVector());
+
+	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, FString::Printf(TEXT("Set3DPosition return %d"), retrunValue));
+}
+
+FString UVivoxManager::GetRandomString(int32 Length)
+{
+	FString RandomString = "";
+	const FString Characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (int i = 0; i < Length; i++)
+	{
+		int32 RandomIndex = FMath::RandRange(0, Characters.Len() - 1);
+		RandomString.AppendChar(Characters[RandomIndex]);
+	}
+	return RandomString;
 }
