@@ -101,8 +101,8 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 				UE_LOG(LogTemp, Warning, TEXT("Try to Joining channel"));
 				GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Joining channel"));
 				JoinChannel(InputUsername,
-				            "pommeDeTerre",
-				            ChannelType::NonPositional,
+				            ChannelName,
+				            ChannelType::Positional,
 				            TempChannel3DProperties,
 				            true,
 				            true,
@@ -201,7 +201,7 @@ int32 UOnlineGameInstance::Update3dPositionalChannel(FString InputUsername, FStr
 {
 	if (InputUsername.IsEmpty() || InputChannelName.IsEmpty())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("please enter username and channelname"));
+		//UE_LOG(LogTemp, Warning, TEXT("please enter username and channelname"));
 		return 99;
 	}
 	
@@ -248,7 +248,7 @@ int32 UOnlineGameInstance::Update3dPositionalChannel(FString InputUsername, FStr
 void UOnlineGameInstance::TickPosittion(APawn* PlayerPawn)
 {
 	
-	Update3dPositionalChannel(MyInputUsername, "pommeDeTerre", PlayerPawn->GetActorLocation(), PlayerPawn->GetActorLocation(), PlayerPawn->GetActorForwardVector(), PlayerPawn->GetActorUpVector());
+	Update3dPositionalChannel(MyInputUsername, ChannelName, PlayerPawn->GetActorLocation(), PlayerPawn->GetActorLocation(), PlayerPawn->GetActorForwardVector(), PlayerPawn->GetActorUpVector());
 }
 
 ChannelId* UOnlineGameInstance::GetChannelId(FString Channelname)

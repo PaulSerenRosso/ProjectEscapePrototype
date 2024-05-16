@@ -66,6 +66,7 @@ public:
 	FTimespan kDefaultExpiration = FTimespan::FromDays(10);
 	FString kDefaultIssuer = "90719-proje-41231-udash";
 	FString kDefaultDomain = "mtu1xp.vivox.com";
+	FString ChannelName = "pommeDeTerre";
 
 
 	//Client
