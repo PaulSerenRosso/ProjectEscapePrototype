@@ -9,6 +9,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "OnlineGameInstance.h"
 #include "Engine/LocalPlayer.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -54,7 +55,6 @@ void AProjectEscapeProtoCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -79,7 +79,6 @@ void AProjectEscapeProtoCharacter::SetupPlayerInputComponent(UInputComponent* Pl
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
 }
-
 
 void AProjectEscapeProtoCharacter::Move(const FInputActionValue& Value)
 {
@@ -116,3 +115,4 @@ bool AProjectEscapeProtoCharacter::GetHasRifle()
 {
 	return bHasRifle;
 }
+

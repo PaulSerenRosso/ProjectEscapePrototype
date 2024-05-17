@@ -39,13 +39,9 @@ bool UOnlineGameInstance::InitializeClient()
 		return false;
 	}
 	FString RandomName = UVivoxManager::GetRandomString(10);
-	FTimerHandle TimerHandle;
 	GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Finish to Initialize Vivox"));
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, RandomName]()
-	{
-		GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Sign In"));
-		SignIn(RandomName, RandomName, kDefaultExpiration);
-	}, 5.0f, false);
+	GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Sign In"));
+	SignIn(RandomName, RandomName, kDefaultExpiration);
 
 
 	return true;
@@ -76,8 +72,8 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 	AccountIds.Add(InputUsername, TempAccountId);
 
 	ILoginSession& MyLoginSession(MyVoiceClient->GetLoginSession(TempAccountId));
-	MyLoginSession.EventStateChanged.AddUObject(this, &UOnlineGameInstance::OnLoginSessionStateChanged,
-	                                            TempAccountId.Name());
+	// MyLoginSession.EventStateChanged.AddUObject(this, &UOnlineGameInstance::OnLoginSessionStateChanged,
+	//                                             TempAccountId.Name());
 
 	AsyncTask(ENamedThreads::GameThread, [this, TempAccountId, Expiration, InputUsername]()
 	{
@@ -89,27 +85,7 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 		OnBeginLoginCompleted.BindLambda([this, &MyLoginSession, InputUsername](VivoxCoreError Error)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("login error code: %i"), Error);
-			FTimerHandle TimerHandle;
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, InputUsername]()
-			{
-				FMyChannel3DProperties TempChannel3DProperties;
-				TempChannel3DProperties.audibleDistance = 2700;
-				TempChannel3DProperties.conversationalDistance = 90;
-				TempChannel3DProperties.audioFadeIntensityByDistance = 1.0;
-				TempChannel3DProperties.audioFadeMode = EAudioFadeModel::InverseByDistance;
-
-				UE_LOG(LogTemp, Warning, TEXT("Try to Joining channel"));
-				GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Joining channel"));
-				JoinChannel(InputUsername,
-				            ChannelName,
-				            ChannelType::Positional,
-				            TempChannel3DProperties,
-				            true,
-				            true,
-				            true,
-				            FTimespan::FromDays(10)
-				);
-			}, 5.0f, false);
+			MyInputUsername = InputUsername;
 		});
 
 		MyLoginSession.BeginLogin(kDefaulEndPoint, VivoxLoginToken, OnBeginLoginCompleted);
@@ -118,153 +94,10 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 	return 0;
 }
 
-void UOnlineGameInstance::OnChannelSessionStateChanged(const IChannelConnectionState& ChannelConnectionState,
-                                                       FString String, FString String1)
-{
-}
 
-void UOnlineGameInstance::OnChannelSessionTextMessageReceived(const IChannelTextMessage& ChannelTextMessage,
-                                                              FString String, FString String1)
-{
-}
-
-int32 UOnlineGameInstance::JoinChannel(FString InputUserName, FString InputChannelName, ChannelType InputChannelType,
-                                       FMyChannel3DProperties InputChannel3dProperties, bool ConnectAudio,
-                                       bool ConnectText, bool SwitchTransmition, FTimespan Expiration)
-{
-	if (InputUserName.IsEmpty() || InputChannelName.IsEmpty())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("make sure user name and channel name is set"));
-		return 99;
-	}
-
-	Channel3DProperties TempChannel3DProperties(InputChannel3dProperties.audibleDistance,
-	                                            InputChannel3dProperties.conversationalDistance,
-	                                            InputChannel3dProperties.audioFadeIntensityByDistance,
-	                                            InputChannel3dProperties.audioFadeMode);
-
-	ChannelId TempChannelId(kDefaultIssuer, InputChannelName, kDefaultDomain, InputChannelType,
-	                        TempChannel3DProperties);
-	if (!TempChannelId.IsValid())
-	{
-		UE_LOG(LogTemp, Warning,
-		       TEXT("ChannelId id not valid, try again and make sure vivox cridentials and input is good"));
-		return 98;
-	}
-
-	ChannelIds.Add(InputChannelName, TempChannelId);
-
-	AccountId* TempAccountId = &AccountIds[InputUserName];
-
-	ILoginSession* TempLoginSession = &MyVoiceClient->GetLoginSession(*TempAccountId);
-
-	if (TempLoginSession->State() != LoginState::LoggedIn)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("user its not logged in"));
-		return false;
-	}
-
-	IChannelSession& MyChannelSession(TempLoginSession->GetChannelSession(TempChannelId));
-	MyChannelSession.EventChannelStateChanged.AddUObject(this, &UOnlineGameInstance::OnChannelSessionStateChanged,
-	                                                     TempLoginSession->LoginSessionId().Name(),
-	                                                     TempChannelId.Name());
-	if (ConnectText)
-	{
-		MyChannelSession.EventTextMessageReceived.AddUObject(
-			this, &UOnlineGameInstance::OnChannelSessionTextMessageReceived, TempLoginSession->LoginSessionId().Name(),
-			TempChannelId.Name());
-	}
-
-	AsyncTask(ENamedThreads::GameThread,
-	          [this, TempLoginSession, TempChannelId, Expiration, ConnectAudio, ConnectText, SwitchTransmition, InputUserName]()
-	          {
-		          IChannelSession& MyChannelSession(TempLoginSession->GetChannelSession(TempChannelId));
-
-		          FString ConnectToken = MyChannelSession.GetConnectToken(kDefaultKey, Expiration);
-		          IChannelSession::FOnBeginConnectCompletedDelegate OnBeginConnectCompleted;
-
-		          OnBeginConnectCompleted.BindLambda([this, &MyChannelSession, InputUserName](VivoxCoreError Error)
-		          {
-			          UE_LOG(LogTemp, Warning, TEXT("Join channel completed"));
-		          	MyInputUsername = InputUserName;
-		          });
-
-		          MyChannelSession.BeginConnect(ConnectAudio, ConnectText, SwitchTransmition, ConnectToken,
-		                                        OnBeginConnectCompleted);
-	          });
-
-	return 0;
-}
-
-int32 UOnlineGameInstance::Update3dPositionalChannel(FString InputUsername, FString InputChannelName,
-	FVector SpeakerPosition, FVector ListenerPosition, FVector ListenerForwardVector, FVector ListenerUpVector)
-{
-	if (InputUsername.IsEmpty() || InputChannelName.IsEmpty())
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("please enter username and channelname"));
-		return 99;
-	}
-	
-	AccountId* TempAccountId = &AccountIds[InputUsername];
-
-	ILoginSession* TempLoginSession = &MyVoiceClient->GetLoginSession(*TempAccountId);
-	if (TempLoginSession == nullptr){
-		UE_LOG(LogTemp, Warning, TEXT("user its not valid"));
-		return 98;
-	}
-	
-	if (TempLoginSession->State() != LoginState::LoggedIn){
-		UE_LOG(LogTemp, Warning, TEXT("user its not logged in"));
-		return 97;
-	}
-
-	ChannelId* TempChannelId = GetChannelId(InputChannelName);
-	if (TempChannelId == nullptr)
-	{
-		return 96;
-	}
-
-	IChannelSession* TempChannelSession = &TempLoginSession->GetChannelSession(*TempChannelId);
-	if (TempChannelSession == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Channel session not found or not valid"));
-		return 95;
-	}
-
-	if (TempChannelSession == nullptr)
-	{
-		return 96;
-	}
-	
-	if (TempChannelSession->Channel().Type() != ChannelType::Positional)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("selected channel is not positional"));
-		return 95;
-	}
-	
-	return TempChannelSession->Set3DPosition(SpeakerPosition, ListenerPosition, ListenerForwardVector, ListenerUpVector);
-}
-
-void UOnlineGameInstance::TickPosittion(APawn* PlayerPawn)
-{
-	
-	Update3dPositionalChannel(MyInputUsername, ChannelName, PlayerPawn->GetActorLocation(), PlayerPawn->GetActorLocation(), PlayerPawn->GetActorForwardVector(), PlayerPawn->GetActorUpVector());
-}
-
-ChannelId* UOnlineGameInstance::GetChannelId(FString Channelname)
-{
-	if (!ChannelIds.Contains(Channelname))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("channel id not found"));
-		return nullptr;
-	}
-	return &ChannelIds[Channelname];
-}
-
-void UOnlineGameInstance::OnLoginSessionStateChanged(LoginState State, FString Username)
-{
-	if (OnLoginStateChanged.IsBound())
-	{
-		
-	}
-}
+// void UOnlineGameInstance::TickPosittion(APawn* PlayerPawn)
+// {
+// 	Update3dPositionalChannel(MyInputUsername, ChannelName, PlayerPawn->GetActorLocation(),
+// 	                          PlayerPawn->GetActorLocation(), PlayerPawn->GetActorForwardVector(),
+// 	                          PlayerPawn->GetActorUpVector());
+// }
