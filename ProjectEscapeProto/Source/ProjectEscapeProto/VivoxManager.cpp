@@ -26,8 +26,9 @@ void UVivoxManager::BeginPlay()
 	Super::BeginPlay();
 
 	//InitializeVivox();
+	if (!Cast<APawn>(GetOwner())->IsLocallyControlled()) return;
 	MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
-	TryToJoinChannel();
+	//TryToJoinChannel();
 }
 
 void UVivoxManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -39,7 +40,7 @@ void UVivoxManager::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void UVivoxManager::OnRep_ChannelName()
 {
-	if(waitResponseFromServerForJoinChannel)
+	if (waitResponseFromServerForJoinChannel)
 	{
 		waitResponseFromServerForJoinChannel = false;
 		TryToJoinChannel();
@@ -65,6 +66,12 @@ void UVivoxManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 	// 	NextUpdateTime += PositionalUpdateRate;
 	// 	
 	// }
+	//if (Cast<APawn>(GetOwner())->IsLocallyControlled())
+	if (waiting) return;
+	Update3dPositionalChannel(MyGameInstance->MyInputUsername, MyGameInstance->ChannelName,
+	                          GetOwner()->GetActorLocation(),
+	                          GetOwner()->GetActorLocation(), GetOwner()->GetActorForwardVector(),
+	                          GetOwner()->GetActorUpVector());
 }
 
 // void UVivoxManager::InitializeVivox()
@@ -228,28 +235,28 @@ FString UVivoxManager::GetRandomString(int32 Length)
 void UVivoxManager::TryToJoinChannel()
 {
 	FMyChannel3DProperties TempChannel3DProperties;
-	TempChannel3DProperties.audibleDistance = 2700;
+	TempChannel3DProperties.audibleDistance = 500;
 	TempChannel3DProperties.conversationalDistance = 90;
 	TempChannel3DProperties.audioFadeIntensityByDistance = 1.0;
 	TempChannel3DProperties.audioFadeMode = EAudioFadeModel::InverseByDistance;
 
 	UE_LOG(LogTemp, Warning, TEXT("Try to Joining channel"));
 	//GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Joining channel"));
-	if(GetOwner()->HasAuthority())
-	{
-		MyGameInstance->ChannelName = GetRandomString(10);
-		ChannelNameRep = MyGameInstance->ChannelName;
-	}
-	else if (ChannelNameRep.IsEmpty())
-	{
-		waitResponseFromServerForJoinChannel = true;
-		return;
-		//Wait for the server to set the channel name :)
-	}
-	else
-	{
-		MyGameInstance->ChannelName = ChannelNameRep;
-	}
+	// if(GetOwner()->HasAuthority())
+	// {
+	// 	MyGameInstance->ChannelName = GetRandomString(10);
+	// 	ChannelNameRep = MyGameInstance->ChannelName;
+	// }
+	// else if (ChannelNameRep.IsEmpty())
+	// {
+	// 	waitResponseFromServerForJoinChannel = true;
+	// 	return;
+	// 	//Wait for the server to set the channel name :)
+	// }
+	// else
+	// {
+	// 	MyGameInstance->ChannelName = ChannelNameRep;
+	// }
 	JoinChannel(MyGameInstance->MyInputUsername,
 	            MyGameInstance->ChannelName,
 	            ChannelType::Positional,
@@ -322,6 +329,7 @@ int32 UVivoxManager::JoinChannel(FString InputUserName, FString InputChannelName
 		          OnBeginConnectCompleted.BindLambda([this, &MyChannelSession, InputUserName](VivoxCoreError Error)
 		          {
 			          UE_LOG(LogTemp, Warning, TEXT("Join channel completed"));
+			          GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Join channel completed"));
 			          MyGameInstance->MyInputUsername = InputUserName;
 		          });
 
@@ -384,7 +392,11 @@ int32 UVivoxManager::Update3dPositionalChannel(FString InputUsername, FString In
 		UE_LOG(LogTemp, Warning, TEXT("selected channel is not positional"));
 		return 95;
 	}
-
+	// FString msg = FString::Printf(
+	// 	TEXT("Updating 3D Position %f %f %f\n"), SpeakerPosition.X, SpeakerPosition.Y,
+	// 	SpeakerPosition.Z);
+	// UE_LOG(LogTemp, Log, TEXT("%s"), *msg);
+	// GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, *msg);
 	return TempChannelSession->Set3DPosition(SpeakerPosition, ListenerPosition, ListenerForwardVector,
 	                                         ListenerUpVector);
 }
@@ -415,7 +427,8 @@ void UVivoxManager::OnChannelSessionTextMessageReceived(const IChannelTextMessag
                                                         FString String, FString String1)
 {
 }
-void UVivoxManager::GetLifetimeReplicatedProps (TArray<FLifetimeProperty>& OutLifetimeProps) const
+
+void UVivoxManager::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UVivoxManager, ChannelNameRep);

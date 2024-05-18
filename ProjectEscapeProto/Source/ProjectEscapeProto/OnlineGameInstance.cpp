@@ -9,8 +9,8 @@
 void UOnlineGameInstance::Init()
 {
 	Super::Init();
-	InitVivox();
-	InitializeClient();
+	/*InitVivox();
+	InitializeClient();*/
 }
 
 void UOnlineGameInstance::InitVivox()

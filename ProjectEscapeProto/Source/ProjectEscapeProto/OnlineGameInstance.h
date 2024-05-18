@@ -16,7 +16,7 @@ struct FMyChannel3DProperties
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadWrite, DisplayName = "Audible Distance", Category = "3D Properties")
-	int32 audibleDistance = 2700;
+	int32 audibleDistance = 700;
 
 	UPROPERTY(BlueprintReadWrite, DisplayName = "Conversational Distance", Category = "3D Properties")
 	int32 conversationalDistance = 90;
@@ -41,10 +41,12 @@ class PROJECTESCAPEPROTO_API UOnlineGameInstance : public UGameInstance
 public:
 	virtual void Init() override;
 
-private:
+protected:
+	UFUNCTION(BlueprintCallable)
 	void InitVivox();
 
 	//Client
+	UFUNCTION(BlueprintCallable)
 	bool InitializeClient();
 	int32 SignIn(FString InputUsername, FString InputDisplayName, FTimespan Expiration);
 	// void OnChannelSessionStateChanged(const IChannelConnectionState& ChannelConnectionState, FString String, FString String1);
@@ -65,8 +67,8 @@ public:
 	FTimespan kDefaultExpiration = FTimespan::FromDays(10);
 	FString kDefaultIssuer = "90719-proje-41231-udash";
 	FString kDefaultDomain = "mtu1xp.vivox.com";
-	//FString ChannelName = "pommeDeTerre";
-	FString ChannelName = "";
+	FString ChannelName = "pommeDeTerre";
+	//FString ChannelName = "";
 	FString ChannelName_ghost = ChannelName + "_ghost";
 	FVivoxCoreModule *MyVoiceModule;
 	IClient *MyVoiceClient = nullptr;

@@ -34,6 +34,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	static FString GetRandomString(int32 Length);
+	UFUNCTION(BlueprintCallable)
 	void TryToJoinChannel();
 	int32 JoinChannel(FString InputUserName, FString InputChannelName, ChannelType InputChannelType,
 					  FMyChannel3DProperties InputChannel3dProperties, bool ConnectAudio, bool ConnectText,
@@ -46,6 +47,8 @@ public:
 	                                  FString String1);
 	void OnChannelSessionTextMessageReceived(const IChannelTextMessage& ChannelTextMessage, FString String,
 	                                         FString String1);
+	UFUNCTION(BlueprintCallable)
+	void isReady() { waiting = false; }
 
 protected:
 	//Client
@@ -56,5 +59,7 @@ protected:
 	UPROPERTY(ReplicatedUsing= OnRep_ChannelName)
 	FString ChannelNameRep = "";
 	bool waitResponseFromServerForJoinChannel = false;
+	UPROPERTY(BlueprintReadWrite, DisplayName = "Channel Name", category="Vivox Subsystem|Channel")
+	bool waiting = true;
 	
  };
