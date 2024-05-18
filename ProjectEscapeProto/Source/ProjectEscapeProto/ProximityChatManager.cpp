@@ -47,6 +47,11 @@ bool AProximityChatManager::InitializeClient()
 	}
 
 	MyVoiceClient = &MyVoiceModule->VoiceClient();
+	if (!MyVoiceClient)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to get voice client"));
+		return false;
+	}
 	bool bSuccess = MyVoiceClient->Initialize() == VxErrorSuccess;
 	if (!bSuccess)
 	{
