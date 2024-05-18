@@ -1,21 +1,39 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "ProximityChatManager.h"
+
 #include "OnlineGameInstance.h"
 #include "VivoxManager.h"
 
-void UOnlineGameInstance::Init()
+// Sets default values
+AProximityChatManager::AProximityChatManager()
 {
-	Super::Init();
-}
-/*
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
 
-void UOnlineGameInstance::InitVivox()
+}
+
+// Called when the game starts or when spawned
+void AProximityChatManager::BeginPlay()
+{
+	Super::BeginPlay();
+	InitVivox();
+	InitializeClient();
+}
+
+// Called every frame
+void AProximityChatManager::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
+void AProximityChatManager::InitVivox()
 {
 	MyVoiceModule = &FModuleManager::Get().LoadModuleChecked<FVivoxCoreModule>("VivoxCore");
 }
 
-bool UOnlineGameInstance::InitializeClient()
+bool AProximityChatManager::InitializeClient()
 {
 	if (!MyVoiceModule)
 	{
@@ -37,18 +55,18 @@ bool UOnlineGameInstance::InitializeClient()
 	}
 	FString RandomName = UVivoxManager::GetRandomString(10);
 	FTimerHandle TimerHandle;
-	GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Finish to Initialize Vivox"));
+	//GEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Finish to Initialize Vivox"));
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, RandomName]()
 	{
-		GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Sign In"));
+		//GEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Sign In"));
 		SignIn(RandomName, RandomName, kDefaultExpiration);
-	}, 5.0f, false);
+	}, 0.01f, false);
 
 
 	return true;
 }
 
-int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayName, FTimespan Expiration)
+int32 AProximityChatManager::SignIn(FString InputUsername, FString InputDisplayName, FTimespan Expiration)
 {
 	if (InputUsername.IsEmpty())
 	{
@@ -73,7 +91,7 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 	AccountIds.Add(InputUsername, TempAccountId);
 
 	ILoginSession& MyLoginSession(MyVoiceClient->GetLoginSession(TempAccountId));
-	MyLoginSession.EventStateChanged.AddUObject(this, &UOnlineGameInstance::OnLoginSessionStateChanged,
+	MyLoginSession.EventStateChanged.AddUObject(this, &AProximityChatManager::OnLoginSessionStateChanged,
 	                                            TempAccountId.Name());
 
 	AsyncTask(ENamedThreads::GameThread, [this, TempAccountId, Expiration, InputUsername]()
@@ -96,7 +114,7 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 				TempChannel3DProperties.audioFadeMode = EAudioFadeModel::InverseByDistance;
 
 				UE_LOG(LogTemp, Warning, TEXT("Try to Joining channel"));
-				GetEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Joining channel"));
+				//GEngine()->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Try to Joining channel"));
 				JoinChannel(InputUsername,
 				            ChannelName,
 				            ChannelType::Positional,
@@ -106,7 +124,7 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 				            true,
 				            FTimespan::FromDays(10)
 				);
-			}, 5.0f, false);
+			}, 0.01f, false);
 		});
 
 		MyLoginSession.BeginLogin(kDefaulEndPoint, VivoxLoginToken, OnBeginLoginCompleted);
@@ -115,17 +133,17 @@ int32 UOnlineGameInstance::SignIn(FString InputUsername, FString InputDisplayNam
 	return 0;
 }
 
-void UOnlineGameInstance::OnChannelSessionStateChanged(const IChannelConnectionState& ChannelConnectionState,
+void AProximityChatManager::OnChannelSessionStateChanged(const IChannelConnectionState& ChannelConnectionState,
                                                        FString String, FString String1)
 {
 }
 
-void UOnlineGameInstance::OnChannelSessionTextMessageReceived(const IChannelTextMessage& ChannelTextMessage,
+void AProximityChatManager::OnChannelSessionTextMessageReceived(const IChannelTextMessage& ChannelTextMessage,
                                                               FString String, FString String1)
 {
 }
 
-int32 UOnlineGameInstance::JoinChannel(FString InputUserName, FString InputChannelName, ChannelType InputChannelType,
+int32 AProximityChatManager::JoinChannel(FString InputUserName, FString InputChannelName, ChannelType InputChannelType,
                                        FMyChannel3DProperties InputChannel3dProperties, bool ConnectAudio,
                                        bool ConnectText, bool SwitchTransmition, FTimespan Expiration)
 {
@@ -162,13 +180,13 @@ int32 UOnlineGameInstance::JoinChannel(FString InputUserName, FString InputChann
 	}
 
 	IChannelSession& MyChannelSession(TempLoginSession->GetChannelSession(TempChannelId));
-	MyChannelSession.EventChannelStateChanged.AddUObject(this, &UOnlineGameInstance::OnChannelSessionStateChanged,
+	MyChannelSession.EventChannelStateChanged.AddUObject(this, &AProximityChatManager::OnChannelSessionStateChanged,
 	                                                     TempLoginSession->LoginSessionId().Name(),
 	                                                     TempChannelId.Name());
 	if (ConnectText)
 	{
 		MyChannelSession.EventTextMessageReceived.AddUObject(
-			this, &UOnlineGameInstance::OnChannelSessionTextMessageReceived, TempLoginSession->LoginSessionId().Name(),
+			this, &AProximityChatManager::OnChannelSessionTextMessageReceived, TempLoginSession->LoginSessionId().Name(),
 			TempChannelId.Name());
 	}
 
@@ -193,7 +211,7 @@ int32 UOnlineGameInstance::JoinChannel(FString InputUserName, FString InputChann
 	return 0;
 }
 
-int32 UOnlineGameInstance::Update3dPositionalChannel(FString InputUsername, FString InputChannelName,
+int32 AProximityChatManager::Update3dPositionalChannel(FString InputUsername, FString InputChannelName,
 	FVector SpeakerPosition, FVector ListenerPosition, FVector ListenerForwardVector, FVector ListenerUpVector)
 {
 	if (InputUsername.IsEmpty() || InputChannelName.IsEmpty())
@@ -242,13 +260,13 @@ int32 UOnlineGameInstance::Update3dPositionalChannel(FString InputUsername, FStr
 	return TempChannelSession->Set3DPosition(SpeakerPosition, ListenerPosition, ListenerForwardVector, ListenerUpVector);
 }
 
-void UOnlineGameInstance::TickPosittion(APawn* PlayerPawn)
+void AProximityChatManager::TickPosittion(APawn* PlayerPawn)
 {
 	
 	Update3dPositionalChannel(MyInputUsername, ChannelName, PlayerPawn->GetActorLocation(), PlayerPawn->GetActorLocation(), PlayerPawn->GetActorForwardVector(), PlayerPawn->GetActorUpVector());
 }
 
-ChannelId* UOnlineGameInstance::GetChannelId(FString Channelname)
+ChannelId* AProximityChatManager::GetChannelId(FString Channelname)
 {
 	if (!ChannelIds.Contains(Channelname))
 	{
@@ -258,11 +276,11 @@ ChannelId* UOnlineGameInstance::GetChannelId(FString Channelname)
 	return &ChannelIds[Channelname];
 }
 
-void UOnlineGameInstance::OnLoginSessionStateChanged(LoginState State, FString Username)
+void AProximityChatManager::OnLoginSessionStateChanged(LoginState State, FString Username)
 {
 	if (OnLoginStateChanged.IsBound())
 	{
 		
 	}
 }
-*/
+

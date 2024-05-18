@@ -6,39 +6,40 @@
 
 void AFirstPersonMapGS::CreateChannel()
 {
-	UOnlineGameInstance* MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
-	
-	Channel3DProperties Channel3DProperties(1000,
-		90,
-		1.0,
-		EAudioFadeModel::InverseByDistance);
-	
-	Channel = ChannelId(MyGameInstance->kDefaultIssuer, "example_channel", MyGameInstance->kDefaultDomain,
-				  ChannelType::Positional, Channel3DProperties);
+	// UOnlineGameInstance* MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
+	//
+	// Channel3DProperties Channel3DProperties(1000,
+	// 	90,
+	// 	1.0,
+	// 	EAudioFadeModel::InverseByDistance);
+	//
+	// Channel = ChannelId(MyGameInstance->kDefaultIssuer, "example_channel", MyGameInstance->kDefaultDomain,
+	// 			  ChannelType::Positional, Channel3DProperties);
 	
 }
 
-IChannelSession& AFirstPersonMapGS::JoinChannel(ILoginSession *MyLoginSessionPtr)
-{
-	IChannelSession& MyChannelSession(MyLoginSessionPtr->GetChannelSession(Channel));
-	bool IsAsynchronousConnectCompleted = false;
-	IChannelSession::FOnBeginConnectCompletedDelegate OnBeginConnectCompleted;
-
-	OnBeginConnectCompleted.BindLambda([this, &IsAsynchronousConnectCompleted, &MyChannelSession](VivoxCoreError Error)
-	{
-		if (VxErrorSuccess == Error)
-		{
-			// This bool is only illustrative. The connect call has completed.
-			IsAsynchronousConnectCompleted = true;
-			GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, TEXT("ChannelSession Connected :)"));
-		}
-	});
-
-	UOnlineGameInstance* MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
-	MyChannelSession.BeginConnect(true, true, true,
-								  MyChannelSession.GetConnectToken(MyGameInstance->kDefaultKey,
-																   MyGameInstance->kDefaultExpiration),
-								  OnBeginConnectCompleted);	
-	return MyChannelSession;
-}
+// IChannelSession& AFirstPersonMapGS::JoinChannel(ILoginSession *MyLoginSessionPtr)
+// {
+// 	// IChannelSession& MyChannelSession(MyLoginSessionPtr->GetChannelSession(Channel));
+// 	// bool IsAsynchronousConnectCompleted = false;
+// 	// IChannelSession::FOnBeginConnectCompletedDelegate OnBeginConnectCompleted;
+// 	//
+// 	// OnBeginConnectCompleted.BindLambda([this, &IsAsynchronousConnectCompleted, &MyChannelSession](VivoxCoreError Error)
+// 	// {
+// 	// 	if (VxErrorSuccess == Error)
+// 	// 	{
+// 	// 		// This bool is only illustrative. The connect call has completed.
+// 	// 		IsAsynchronousConnectCompleted = true;
+// 	// 		GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, TEXT("ChannelSession Connected :)"));
+// 	// 	}
+// 	// });
+// 	//
+// 	// UOnlineGameInstance* MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
+// 	// MyChannelSession.BeginConnect(true, true, true,
+// 	// 							  MyChannelSession.GetConnectToken(MyGameInstance->kDefaultKey,
+// 	// 															   MyGameInstance->kDefaultExpiration),
+// 	// 							  OnBeginConnectCompleted);	
+// 	//return MyChannelSession;
+// 	
+// }
 

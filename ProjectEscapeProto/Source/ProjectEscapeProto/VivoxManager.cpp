@@ -51,114 +51,114 @@ void UVivoxManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 void UVivoxManager::InitializeVivox()
 {
-	UOnlineGameInstance* MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
-	FVivoxCoreModule* MyVoiceModule = MyGameInstance->MyVoiceModule;
-	if (MyVoiceModule == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Vivox Module is null"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Vivox Module is null"));
-		return;
-	}
-	MyVoiceClient = &MyVoiceModule->VoiceClient();
-	MyVoiceClient->Initialize();
-
-	FString RandomName = GetRandomString(10);
-	AccountId Account = AccountId(MyGameInstance->kDefaultIssuer, RandomName, MyGameInstance->kDefaultDomain);
-	ILoginSession& MyLoginSession(MyVoiceClient->GetLoginSession(Account));
-	MyLoginSessionPtr = &MyLoginSession;
-	bool IsLoggedIn = false;
-	// Setup the delegate to execute when login completes
-	ILoginSession::FOnBeginLoginCompletedDelegate OnBeginLoginCompleted;
-	OnBeginLoginCompleted.BindLambda([this, &IsLoggedIn, &MyLoginSession](VivoxCoreError Error)
-	{
-		if (VxErrorSuccess == Error)
-		{
-			// This bool is only illustrative. The user is now logged in.
-			IsLoggedIn = true;
-			GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, TEXT("LoginSession Logged In :)"));
-			UE_LOG(LogTemp, Log, TEXT("LoginSession Logged In\n"));
-
-			//IF IM FIRST I CREATE THE CHANNEL
-			if (GetOwner()->HasAuthority())
-			{
-				AFirstPersonMapGS* MyGameState = Cast<AFirstPersonMapGS>(GetWorld()->GetGameState());
-				MyGameState->CreateChannel();
-				GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, TEXT("Channel Created :)"));
-				UE_LOG(LogTemp, Log, TEXT("Channel Created\n"));
-			}
-
-
-			JoinChannelOnClient();
-		}
-	});
-	// Request the user to login to Vivox
-	MyLoginSession.BeginLogin(MyGameInstance->kDefaulEndPoint,
-	                          MyLoginSession.GetLoginToken(MyGameInstance->kDefaultIssuer,
-	                                                       MyGameInstance->kDefaultExpiration), OnBeginLoginCompleted);
-	MyLoginSession.EventStateChanged.AddUObject(this, &UVivoxManager::OnLoginSessionStateChanged);
+	// UOnlineGameInstance* MyGameInstance = Cast<UOnlineGameInstance>(GetWorld()->GetGameInstance());
+	// FVivoxCoreModule* MyVoiceModule = MyGameInstance->MyVoiceModule;
+	// if (MyVoiceModule == nullptr)
+	// {
+	// 	UE_LOG(LogTemp, Error, TEXT("Vivox Module is null"));
+	// 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Vivox Module is null"));
+	// 	return;
+	// }
+	// MyVoiceClient = &MyVoiceModule->VoiceClient();
+	// MyVoiceClient->Initialize();
+	//
+	// FString RandomName = GetRandomString(10);
+	// AccountId Account = AccountId(MyGameInstance->kDefaultIssuer, RandomName, MyGameInstance->kDefaultDomain);
+	// ILoginSession& MyLoginSession(MyVoiceClient->GetLoginSession(Account));
+	// MyLoginSessionPtr = &MyLoginSession;
+	// bool IsLoggedIn = false;
+	// // Setup the delegate to execute when login completes
+	// ILoginSession::FOnBeginLoginCompletedDelegate OnBeginLoginCompleted;
+	// OnBeginLoginCompleted.BindLambda([this, &IsLoggedIn, &MyLoginSession](VivoxCoreError Error)
+	// {
+	// 	if (VxErrorSuccess == Error)
+	// 	{
+	// 		// This bool is only illustrative. The user is now logged in.
+	// 		IsLoggedIn = true;
+	// 		GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, TEXT("LoginSession Logged In :)"));
+	// 		UE_LOG(LogTemp, Log, TEXT("LoginSession Logged In\n"));
+	//
+	// 		//IF IM FIRST I CREATE THE CHANNEL
+	// 		if (GetOwner()->HasAuthority())
+	// 		{
+	// 			AFirstPersonMapGS* MyGameState = Cast<AFirstPersonMapGS>(GetWorld()->GetGameState());
+	// 			MyGameState->CreateChannel();
+	// 			GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, TEXT("Channel Created :)"));
+	// 			UE_LOG(LogTemp, Log, TEXT("Channel Created\n"));
+	// 		}
+	//
+	//
+	// 		JoinChannelOnClient();
+	// 	}
+	// });
+	// // Request the user to login to Vivox
+	// MyLoginSession.BeginLogin(MyGameInstance->kDefaulEndPoint,
+	//                           MyLoginSession.GetLoginToken(MyGameInstance->kDefaultIssuer,
+	//                                                        MyGameInstance->kDefaultExpiration), OnBeginLoginCompleted);
+	// MyLoginSession.EventStateChanged.AddUObject(this, &UVivoxManager::OnLoginSessionStateChanged);
 }
 
 void UVivoxManager::OnChannelStateChanged(const IChannelConnectionState& ChannelConnectionState)
 {
-	FString ChannelName(ChannelConnectionState.ChannelSession().Channel().Name());
-
-	if (ConnectionState::Connected == ChannelConnectionState.State())
-	{
-		UE_LOG(LogTemp, Log, TEXT("Channel %s  fully connected\n"), *ChannelName);
-		FString Message = FString::Printf(TEXT("Channel %s  fully connected\n"), *ChannelName);
-		GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, *Message);
-	}
-	else if (ConnectionState::Disconnected == ChannelConnectionState.State())
-	{
-		UE_LOG(LogTemp, Log, TEXT("Channel %s fully disconnected\n"), *ChannelName);
-		FString MessageD = FString::Printf(TEXT("Channel %s fully disconnected\n"),
-		                                   *ChannelName);
-		GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, *MessageD);
-	}
+	// FString ChannelName(ChannelConnectionState.ChannelSession().Channel().Name());
+	//
+	// if (ConnectionState::Connected == ChannelConnectionState.State())
+	// {
+	// 	UE_LOG(LogTemp, Log, TEXT("Channel %s  fully connected\n"), *ChannelName);
+	// 	FString Message = FString::Printf(TEXT("Channel %s  fully connected\n"), *ChannelName);
+	// 	GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, *Message);
+	// }
+	// else if (ConnectionState::Disconnected == ChannelConnectionState.State())
+	// {
+	// 	UE_LOG(LogTemp, Log, TEXT("Channel %s fully disconnected\n"), *ChannelName);
+	// 	FString MessageD = FString::Printf(TEXT("Channel %s fully disconnected\n"),
+	// 	                                   *ChannelName);
+	// 	GEngine->AddOnScreenDebugMessage(-1, 2500.f, FColor::Green, *MessageD);
+	// }
 }
 
 void UVivoxManager::JoinChannelOnClient()
 {
-	AFirstPersonMapGS* MyGameState = Cast<AFirstPersonMapGS>(GetWorld()->GetGameState());
-	if (MyGameState == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("GameState is null"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("GameState is null"));
-		return;
-	}
-	MyChannelSession = &MyGameState->JoinChannel(MyLoginSessionPtr);
-	ConnectedPositionalChannel = MyChannelSession->Channel();
-	MyChannelSession->EventChannelStateChanged.AddUObject(this, &UVivoxManager::OnChannelStateChanged);
-
-	ParticipantSpeakingUpdateRate UpdateRate = ParticipantSpeakingUpdateRate::Update10Hz;
-	MyLoginSessionPtr->SetParticipantSpeakingUpdateRate(UpdateRate);
-	MyChannelSession->EventAfterParticipantUpdated.AddLambda([](const IParticipant& Participant)
-	{
-		FString Message = FString::Printf(
-			TEXT("Speech Detected %f"), Participant.AudioEnergy());
-		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, *Message);
-	});
+	// AFirstPersonMapGS* MyGameState = Cast<AFirstPersonMapGS>(GetWorld()->GetGameState());
+	// if (MyGameState == nullptr)
+	// {
+	// 	UE_LOG(LogTemp, Error, TEXT("GameState is null"));
+	// 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("GameState is null"));
+	// 	return;
+	// }
+	// MyChannelSession = &MyGameState->JoinChannel(MyLoginSessionPtr);
+	// ConnectedPositionalChannel = MyChannelSession->Channel();
+	// MyChannelSession->EventChannelStateChanged.AddUObject(this, &UVivoxManager::OnChannelStateChanged);
+	//
+	// ParticipantSpeakingUpdateRate UpdateRate = ParticipantSpeakingUpdateRate::Update10Hz;
+	// MyLoginSessionPtr->SetParticipantSpeakingUpdateRate(UpdateRate);
+	// MyChannelSession->EventAfterParticipantUpdated.AddLambda([](const IParticipant& Participant)
+	// {
+	// 	FString Message = FString::Printf(
+	// 		TEXT("Speech Detected %f"), Participant.AudioEnergy());
+	// 	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, *Message);
+	// });
 }
 
 void UVivoxManager::OnLoginSessionStateChanged(LoginState State)
 {
-	if (LoginState::LoggedOut == State)
-	{
-		UE_LOG(LogTemp, Error, TEXT("LoginSession Logged Out Unexpectedly\n"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("LoginSession Logged Out Unexpectedly"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("LoginSession Logged In\n"));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("LoginSession Logged In"));
-	}
+	// if (LoginState::LoggedOut == State)
+	// {
+	// 	UE_LOG(LogTemp, Error, TEXT("LoginSession Logged Out Unexpectedly\n"));
+	// 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("LoginSession Logged Out Unexpectedly"));
+	// }
+	// else
+	// {
+	// 	UE_LOG(LogTemp, Error, TEXT("LoginSession Logged In\n"));
+	// 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("LoginSession Logged In"));
+	// }
 }
 
 void UVivoxManager::Update3DPosition(AActor* Actor)
 {
 
 	/// Return if argument is invalid.
-	if (NULL == Actor)
+	/*if (NULL == Actor)
 		return;
 
 	/// Return if we're not in a positional channel.
@@ -172,7 +172,7 @@ void UVivoxManager::Update3DPosition(AActor* Actor)
 
 	/// Set new position and orientation in connected positional channel.
 	MyLoginSessionPtr->GetChannelSession(ConnectedPositionalChannel).Set3DPosition(NewPosition, NewPosition, NewForwardVector, NewUpVector);
-/*
+
 	if (MyChannelSession == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("ChannelSession is null. Not Connected to a channel ?"));
