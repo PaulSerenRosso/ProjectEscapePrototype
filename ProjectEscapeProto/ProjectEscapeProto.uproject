@@ -28,6 +28,10 @@
 		{
 			"Name": "VivoxCore",
 			"Enabled": true
+		},
+		{
+			"Name": "InoVivox",
+			"Enabled": false
 		}
 	]
 }
