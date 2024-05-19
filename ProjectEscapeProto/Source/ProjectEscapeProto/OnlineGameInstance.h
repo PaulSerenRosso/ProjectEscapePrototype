@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AdvancedFriendsGameInstance.h"
 #include "Engine/GameInstance.h"
 #include "OnlineGameInstance.generated.h"
 
 UCLASS()
-class PROJECTESCAPEPROTO_API UOnlineGameInstance : public UGameInstance
+class PROJECTESCAPEPROTO_API UOnlineGameInstance : public UAdvancedFriendsGameInstance
 {
 	GENERATED_BODY()
 
