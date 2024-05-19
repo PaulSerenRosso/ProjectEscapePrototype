@@ -24,6 +24,14 @@
 		{
 			"Name": "OnlineSubsystemSteam",
 			"Enabled": true
+		},
+		{
+			"Name": "VivoxCore",
+			"Enabled": true
+		},
+		{
+			"Name": "InoVivox",
+			"Enabled": false
 		}
 	]
 }

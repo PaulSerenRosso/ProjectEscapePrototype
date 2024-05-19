@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "GameFramework/GameMode.h"
 #include "ProjectEscapeProtoGameMode.generated.h"
 
 UCLASS(minimalapi)
-class AProjectEscapeProtoGameMode : public AGameModeBase
+class AProjectEscapeProtoGameMode : public AGameMode
 {
 	GENERATED_BODY()
 

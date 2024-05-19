@@ -6,7 +6,7 @@ public class ProjectEscapeProto : ModuleRules
 {
 	public ProjectEscapeProto(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem", "VivoxCore", "PerfCounters", "AdvancedSessions" });
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
